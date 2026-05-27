@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_classes/features/home/presentation/views/app_shell.dart';
+import 'package:my_classes/core/theme/app_colors.dart';
+import 'package:my_classes/core/theme/app_text_styles.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -55,9 +57,9 @@ class _SplashViewBodyState extends State<SplashViewBody>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.blue.shade800,
-            Colors.blue.shade600,
-            Colors.blue.shade400,
+            AppColors.darkPrimaryColor,
+            AppColors.primaryColor,
+            AppColors.lightPrimaryColor,
           ],
         ),
       ),
@@ -74,10 +76,10 @@ class _SplashViewBodyState extends State<SplashViewBody>
                   height: 100,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white,
+                    color: AppColors.surfaceColor,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: AppColors.shadowColor,
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
@@ -86,7 +88,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
                   child: const Icon(
                     Icons.school_rounded,
                     size: 60,
-                    color: Color(0xFF1976D2),
+                    color: AppColors.primaryColor,
                   ),
                 ),
               ),
@@ -99,20 +101,20 @@ class _SplashViewBodyState extends State<SplashViewBody>
                 position: _slideAnimation,
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       'حصصي',
-                      style: TextStyle(
+                      style: AppTextStyles.displayLarge.copyWith(
                         fontSize: 40,
+                        color: AppColors.textLightColor,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     Text(
                       'My Classes',
-                      style: TextStyle(
+                      style: AppTextStyles.quicksandMedium.copyWith(
                         fontSize: 16,
-                        color: Colors.white.withOpacity(0.9),
+                        color: AppColors.textLightColor.withOpacity(0.9),
                         letterSpacing: 1.5,
                       ),
                     ),

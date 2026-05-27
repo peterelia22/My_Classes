@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_classes/features/auth/login/presentation/views/login_view.dart';
 import 'package:my_classes/features/home/presentation/views/app_shell.dart';
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/core/theme/app_text_styles.dart';
@@ -38,7 +39,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
     // Navigate after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, AppShell.routeName);
+        Navigator.pushReplacementNamed(context, LoginView.routeName);
       }
     });
   }

@@ -38,6 +38,9 @@ dependencies:
   dartz: ^0.10.1
   supabase_flutter: ^2.12.4
   flutter_dotenv: ^6.0.1
+  get_it: ^9.2.1
+  awesome_snackbar_content: ^0.1.7
+  modal_progress_hud_nsn: ^0.5.1
 
 dev_dependencies:
   flutter_test:

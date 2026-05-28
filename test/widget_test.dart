@@ -14,6 +14,8 @@ void main() {
     final theme = materialApp.theme!;
 
     expect(theme.colorScheme.primary, AppColors.primaryColor);
+    expect(theme.colorScheme.secondary, AppColors.secondaryColor);
+    expect(theme.colorScheme.error, AppColors.errorColor);
     expect(
       theme.textTheme.displayLarge?.fontFamily,
       AppTextStyles.displayLarge.fontFamily,
@@ -21,6 +23,10 @@ void main() {
     expect(
       theme.textTheme.displayLarge?.fontSize,
       AppTextStyles.displayLarge.fontSize,
+    );
+    expect(
+      theme.textTheme.bodyLarge?.fontSize,
+      AppTextStyles.bodyLarge.fontSize,
     );
   });
 }

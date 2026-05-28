@@ -13,8 +13,6 @@ class AppTheme {
       onPrimary: AppColors.textLightColor,
       secondary: AppColors.secondaryColor,
       onSecondary: AppColors.textLightColor,
-      background: AppColors.backgroundColor,
-      onBackground: AppColors.textPrimaryColor,
       surface: AppColors.surfaceColor,
       onSurface: AppColors.textPrimaryColor,
       error: AppColors.errorColor,

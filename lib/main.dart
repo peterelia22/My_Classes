@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_classes/core/services/supbase_service.dart';
 import 'package:my_classes/features/splash/presentation/splash_view.dart';
 import 'core/helpers/on_generate_routes.dart';
-import 'core/theme/app_colors.dart';
+import 'core/theme/app_theme.dart';
 
 void main() async {
   try {
@@ -23,10 +23,7 @@ class MyClasses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-        scaffoldBackgroundColor: Colors.white,
-      ),
+      theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: onGenerateRoutes,
       initialRoute: SplashView.routeName,

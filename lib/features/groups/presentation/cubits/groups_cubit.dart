@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:my_classes/core/utils/time_conflict_checker.dart';
 import 'package:my_classes/features/groups/domain/entities/group_entity.dart';
 import 'package:my_classes/features/groups/domain/repos/group_repo.dart';
 import 'groups_state.dart';
@@ -17,6 +18,15 @@ class GroupsCubit extends Cubit<GroupsState> {
   }
 
   Future<void> addGroup(GroupEntity group) async {
+    if (state is GroupsSuccess) {
+      final existingGroups = (state as GroupsSuccess).groups;
+      if (TimeConflictChecker.hasConflict(existingGroups, group)) {
+        emit(
+          GroupActionFailure(errorMessage: 'يوجد مجموعة أخرى في نفس الميعاد'),
+        );
+        return;
+      }
+    }
     emit(GroupsLoading());
     final result = await groupRepo.addGroup(group);
     result.fold(
@@ -26,6 +36,17 @@ class GroupsCubit extends Cubit<GroupsState> {
   }
 
   Future<void> updateGroup(GroupEntity group) async {
+    if (state is GroupsSuccess) {
+      final existingGroups = (state as GroupsSuccess).groups
+          .where((g) => g.id != group.id)
+          .toList();
+      if (TimeConflictChecker.hasConflict(existingGroups, group)) {
+        emit(
+          GroupActionFailure(errorMessage: 'يوجد مجموعة أخرى في نفس الميعاد'),
+        );
+        return;
+      }
+    }
     emit(GroupsLoading());
     final result = await groupRepo.updateGroup(group);
     result.fold(

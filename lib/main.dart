@@ -20,7 +20,7 @@ void main() async {
     log('Error initializing Supabase: ${e.toString()}');
     // TODO
   }
-  setupGetit();
+  setupGetIt();
   Bloc.observer = CustomBlocObserver();
   await SharedPreferencesSingleton.init();
   runApp(const MyClasses());

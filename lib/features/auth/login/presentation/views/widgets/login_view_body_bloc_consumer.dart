@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_classes/core/services/shared_preferences_service.dart';
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/features/home/presentation/views/app_shell.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -24,6 +25,7 @@ class LoginViewBodyBlocConsumer extends StatelessWidget {
             message: 'مرحباً بك في التطبيق',
             contentType: ContentType.success,
           );
+          SharedPreferencesSingleton.setBool('isLoggedIn', true);
           Navigator.of(
             context,
           ).pushNamedAndRemoveUntil(AppShell.routeName, (route) => false);

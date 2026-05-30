@@ -35,4 +35,16 @@ class GroupModel extends GroupEntity {
     'time_2': time2,
     'session_duration': sessionDuration,
   };
+  factory GroupModel.fromEntity(GroupEntity e, {required String id}) =>
+      GroupModel(
+        id: id,
+        name: e.name,
+        academicYear: e.academicYear,
+        gradeLevel: e.gradeLevel,
+        day1: e.day1,
+        time1: e.time1,
+        day2: e.day2,
+        time2: e.time2,
+        sessionDuration: e.sessionDuration,
+      );
 }

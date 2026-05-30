@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/core/theme/app_text_styles.dart';
+import 'package:my_classes/core/widgets/custom_button.dart';
 import 'package:my_classes/core/widgets/custom_password_field.dart';
 import 'package:my_classes/core/widgets/custom_text_field.dart';
 
@@ -92,32 +93,18 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        context.read<LoginCubit>().login(email, password);
-                      } else {
-                        setState(() {
-                          autovalidateMode = AutovalidateMode.always;
-                        });
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      foregroundColor: AppColors.textLightColor,
-                      textStyle: AppTextStyles.button.copyWith(
-                        color: AppColors.textLightColor,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: const Text('تسجيل الدخول'),
-                  ),
+                CustomButton(
+                  text: 'تسجيل الدخول',
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      formKey.currentState!.save();
+                      context.read<LoginCubit>().login(email, password);
+                    } else {
+                      setState(() {
+                        autovalidateMode = AutovalidateMode.always;
+                      });
+                    }
+                  },
                 ),
                 const SizedBox(height: 32),
               ],

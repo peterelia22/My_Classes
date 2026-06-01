@@ -78,7 +78,7 @@ const GroupIsarModelSchema = CollectionSchema(
       id: 6301175856541681032,
       name: r'remoteId',
       unique: true,
-      replace: false,
+      replace: true,
       properties: [
         IndexPropertySchema(
           name: r'remoteId',

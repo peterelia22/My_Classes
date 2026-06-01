@@ -6,19 +6,25 @@ class GroupLocalDatasource {
   final IsarService isarService;
   GroupLocalDatasource({required this.isarService});
 
+  Future<void> upsertGroup(GroupIsarModel group) async {
+    await isarService.isar.writeTxn(() async {
+      await isarService.isar.groupIsarModels.putByRemoteId(group);
+    });
+  }
+
   Future<List<GroupIsarModel>> getGroups() async {
     return await isarService.isar.groupIsarModels.where().findAll();
   }
 
   Future<void> saveGroup(GroupIsarModel group) async {
-    await isarService.isar.writeTxn(() async {
-      await isarService.isar.groupIsarModels.put(group);
-    });
+    await upsertGroup(group);
   }
 
   Future<void> saveGroups(List<GroupIsarModel> groups) async {
     await isarService.isar.writeTxn(() async {
-      await isarService.isar.groupIsarModels.putAll(groups);
+      for (final group in groups) {
+        await isarService.isar.groupIsarModels.putByRemoteId(group);
+      }
     });
   }
 
@@ -39,8 +45,6 @@ class GroupLocalDatasource {
   }
 
   Future<void> updateGroup(GroupIsarModel group) async {
-    await isarService.isar.writeTxn(() async {
-      await isarService.isar.groupIsarModels.put(group);
-    });
+    await upsertGroup(group);
   }
 }

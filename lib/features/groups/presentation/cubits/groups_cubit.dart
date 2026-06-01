@@ -12,7 +12,7 @@ class GroupsCubit extends Cubit<GroupsState> {
     emit(GroupsLoading());
     final result = await groupRepo.getGroups();
     result.fold(
-      (failure) => emit(GroupsFailure(errorMessage: failure.message)),
+      (_) => emit(GroupsFailure(errorMessage: 'تعذر تحميل المجموعات')),
       (groups) => emit(GroupsSuccess(groups: groups)),
     );
   }
@@ -30,7 +30,7 @@ class GroupsCubit extends Cubit<GroupsState> {
     emit(GroupsLoading());
     final result = await groupRepo.addGroup(group);
     result.fold(
-      (failure) => emit(GroupActionFailure(errorMessage: failure.message)),
+      (_) => emit(GroupActionFailure(errorMessage: 'تعذر إضافة المجموعة')),
       (_) => getGroups(),
     );
   }
@@ -50,7 +50,7 @@ class GroupsCubit extends Cubit<GroupsState> {
     emit(GroupsLoading());
     final result = await groupRepo.updateGroup(group);
     result.fold(
-      (failure) => emit(GroupActionFailure(errorMessage: failure.message)),
+      (_) => emit(GroupActionFailure(errorMessage: 'تعذر تعديل المجموعة')),
       (_) => getGroups(),
     );
   }
@@ -59,7 +59,7 @@ class GroupsCubit extends Cubit<GroupsState> {
     emit(GroupsLoading());
     final result = await groupRepo.deleteGroup(id);
     result.fold(
-      (failure) => emit(GroupActionFailure(errorMessage: failure.message)),
+      (_) => emit(GroupActionFailure(errorMessage: 'تعذر حذف المجموعة')),
       (_) => getGroups(),
     );
   }

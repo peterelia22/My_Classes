@@ -9,13 +9,14 @@ class CustomButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.width = double.infinity,
-    this.height = 52,
+    this.height = 52,this.isLoading = false,
   });
 
   final String text;
   final VoidCallback? onPressed;
   final double width;
   final double height;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,9 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        child: Text(text),
+        child:  isLoading
+      ? const CircularProgressIndicator(color: Colors.white)
+      : Text(text),
       ),
     );
   }

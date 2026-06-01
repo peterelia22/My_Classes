@@ -14,6 +14,9 @@ final class GroupsSuccess extends GroupsState {
 final class GroupsFailure extends GroupsState {
   final String errorMessage;
   GroupsFailure({required this.errorMessage});
+
+  @override
+  String toString() => 'GroupsFailure(errorMessage: $errorMessage)';
 }
 
 final class GroupActionSuccess extends GroupsState {}
@@ -21,4 +24,7 @@ final class GroupActionSuccess extends GroupsState {}
 final class GroupActionFailure extends GroupsState {
   final String errorMessage;
   GroupActionFailure({required this.errorMessage});
+
+  @override
+  String toString() => 'GroupActionFailure(errorMessage: $errorMessage)';
 }

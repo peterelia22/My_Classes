@@ -18,7 +18,11 @@ class GroupRemoteDatasource {
 
   Future<void> addGroup(GroupModel group) async {
     try {
-      await db.addData(path: BackendEndpoints.groups, data: group.toMap());
+      await db.addData(
+        path: BackendEndpoints.groups,
+        data: group.toMap(),
+        documentId: group.id,
+      );
     } catch (e) {
       throw CustomException(message: e.toString());
     }

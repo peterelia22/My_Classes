@@ -2,9 +2,8 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/core/services/shared_preferences_service.dart';
-import 'package:my_classes/core/theme/app_colors.dart';
+import 'package:my_classes/core/widgets/custom_progress_hud.dart';
 import 'package:my_classes/features/home/presentation/views/app_shell.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../../../../core/helpers/build_snack_bar.dart';
 import '../../cubits/login_cubit.dart';
@@ -40,11 +39,8 @@ class LoginViewBodyBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return ModalProgressHUD(
-          inAsyncCall: state is LoginLoading ? true : false,
-          progressIndicator: CircularProgressIndicator(
-            color: AppColors.primaryColor,
-          ),
+        return CustomProgressHud(
+          isLoading: state is LoginLoading,
           child: LoginViewBody(),
         );
       },

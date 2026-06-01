@@ -6,7 +6,7 @@ part 'group_isar_model.g.dart';
 class GroupIsarModel {
   Id isarId = Isar.autoIncrement;
 
-  @Index(unique: true)
+  @Index(unique: true, replace: true)
   late String remoteId;
 
   late String name;

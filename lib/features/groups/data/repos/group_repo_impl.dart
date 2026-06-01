@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:my_classes/core/errors/exceptions.dart';
@@ -40,7 +41,8 @@ class GroupRepoImpl implements GroupRepo {
       return Left(ServerFailure(e.message));
     } on SocketException {
       return Left(ServerFailure('لا يوجد اتصال بالإنترنت'));
-    } catch (e) {
+    } catch (e, stackTrace) {
+      log('GroupRepoImpl.getGroups failed', error: e, stackTrace: stackTrace);
       return Left(ServerFailure('حدث خطأ أثناء تحميل المجموعات'));
     }
   }
@@ -65,12 +67,13 @@ class GroupRepoImpl implements GroupRepo {
 
       return const Right(null);
     } on CustomException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure('${e.message}'));
     } on SocketException {
       return Left(
         ServerFailure('تم الحفظ محلياً وسيتم المزامنة عند عودة الإنترنت'),
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      log('GroupRepoImpl.addGroup failed', error: e, stackTrace: stackTrace);
       return Left(ServerFailure('حدث خطأ أثناء إضافة المجموعة'));
     }
   }
@@ -94,7 +97,8 @@ class GroupRepoImpl implements GroupRepo {
       return Left(
         ServerFailure('تم التعديل محلياً وسيتم المزامنة عند عودة الإنترنت'),
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      log('GroupRepoImpl.updateGroup failed', error: e, stackTrace: stackTrace);
       return Left(ServerFailure('حدث خطأ أثناء تعديل المجموعة'));
     }
   }
@@ -115,7 +119,8 @@ class GroupRepoImpl implements GroupRepo {
       return Left(
         ServerFailure('تم الحذف محلياً وسيتم المزامنة عند عودة الإنترنت'),
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      log('GroupRepoImpl.deleteGroup failed', error: e, stackTrace: stackTrace);
       return Left(ServerFailure('حدث خطأ أثناء حذف المجموعة'));
     }
   }

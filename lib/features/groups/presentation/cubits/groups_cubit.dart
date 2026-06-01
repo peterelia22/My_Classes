@@ -31,7 +31,10 @@ class GroupsCubit extends Cubit<GroupsState> {
     final result = await groupRepo.addGroup(group);
     result.fold(
       (failure) => emit(GroupActionFailure(errorMessage: failure.message)),
-      (_) => getGroups(),
+      (_) {
+        emit(GroupActionSuccess());
+        getGroups();
+      },
     );
   }
 
@@ -51,7 +54,10 @@ class GroupsCubit extends Cubit<GroupsState> {
     final result = await groupRepo.updateGroup(group);
     result.fold(
       (failure) => emit(GroupActionFailure(errorMessage: failure.message)),
-      (_) => getGroups(),
+      (_) {
+        emit(GroupActionSuccess());
+        getGroups();
+      },
     );
   }
 
@@ -60,7 +66,10 @@ class GroupsCubit extends Cubit<GroupsState> {
     final result = await groupRepo.deleteGroup(id);
     result.fold(
       (failure) => emit(GroupActionFailure(errorMessage: failure.message)),
-      (_) => getGroups(),
+      (_) {
+        emit(GroupActionSuccess());
+        getGroups();
+      },
     );
   }
 }

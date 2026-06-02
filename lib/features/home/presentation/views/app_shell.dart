@@ -19,7 +19,8 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> {
-  int _currentIndex = 0;
+  int currentIndex = 0;
+  late final PageController pageController;
 
   final List<Widget> _screens = const [
     HomeLayout(),
@@ -29,13 +30,25 @@ class _AppShellState extends State<AppShell> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: currentIndex);
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => GroupsCubit(getIt<GroupRepo>())..getGroups(),
       child: Builder(
         builder: (context) => Scaffold(
           extendBody: true,
-          floatingActionButton: _currentIndex == 1
+          floatingActionButton: currentIndex == 1
               ? FloatingActionButton(
                   onPressed: () {
                     showModalBottomSheet(
@@ -53,7 +66,15 @@ class _AppShellState extends State<AppShell> {
                 )
               : null,
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          body: _screens[_currentIndex],
+          body: PageView(
+            controller: pageController,
+            onPageChanged: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            children: _screens,
+          ),
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: Container(
@@ -77,38 +98,44 @@ class _AppShellState extends State<AppShell> {
                     elevation: 0,
                     labelTextStyle:
                         MaterialStateProperty.resolveWith<TextStyle?>((states) {
-                          final bool selected = states.contains(
-                            MaterialState.selected,
-                          );
-                          return (selected
-                                  ? AppTextStyles.labelMedium
-                                  : AppTextStyles.labelSmall)
-                              .copyWith(
-                                color: selected
-                                    ? AppColors.primaryColor
-                                    : AppColors.textSecondaryColor,
-                              );
-                        }),
+                      final bool selected = states.contains(
+                        MaterialState.selected,
+                      );
+                      return (selected
+                              ? AppTextStyles.labelMedium
+                              : AppTextStyles.labelSmall)
+                          .copyWith(
+                        color: selected
+                            ? AppColors.primaryColor
+                            : AppColors.textSecondaryColor,
+                      );
+                    }),
                     iconTheme:
                         MaterialStateProperty.resolveWith<IconThemeData?>((
-                          states,
-                        ) {
-                          final bool selected = states.contains(
-                            MaterialState.selected,
-                          );
-                          return IconThemeData(
-                            color: selected
-                                ? AppColors.primaryColor
-                                : AppColors.textSecondaryColor,
-                            size: selected ? 26 : 24,
-                          );
-                        }),
+                      states,
+                    ) {
+                      final bool selected = states.contains(
+                        MaterialState.selected,
+                      );
+                      return IconThemeData(
+                        color: selected
+                            ? AppColors.primaryColor
+                            : AppColors.textSecondaryColor,
+                        size: selected ? 26 : 24,
+                      );
+                    }),
                   ),
                   child: NavigationBar(
-                    selectedIndex: _currentIndex,
+                    selectedIndex: currentIndex,
                     height: 72,
-                    onDestinationSelected: (index) =>
-                        setState(() => _currentIndex = index),
+                    onDestinationSelected: (index) {
+                      setState(() => currentIndex = index);
+                      pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
                     destinations: const [
                       NavigationDestination(
                         icon: Icon(Icons.home_outlined),

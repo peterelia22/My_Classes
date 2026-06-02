@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_classes/core/network/network_listener_service.dart';
 import 'package:my_classes/core/services/shared_preferences_service.dart';
 import 'package:my_classes/core/services/supbase_service.dart';
 import 'package:my_classes/core/services/custom_bloc_observer.dart';
@@ -13,6 +14,7 @@ import 'core/services/get_it_service.dart';
 import 'core/theme/app_colors.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   try {
     await SupabaseService.init();
     log('Supabase initialized');
@@ -20,7 +22,10 @@ void main() async {
     log('Error initializing Supabase: ${e.toString()}');
     // TODO
   }
-  setupGetIt();
+  await setupGetIt();
+
+  getIt<NetworkListenerService>().startListening();
+
   Bloc.observer = CustomBlocObserver();
   await SharedPreferencesSingleton.init();
   runApp(const MyClasses());

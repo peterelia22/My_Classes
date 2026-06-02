@@ -124,4 +124,32 @@ class GroupRepoImpl implements GroupRepo {
       return Left(ServerFailure('حدث خطأ أثناء حذف المجموعة'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> syncUnsyncedGroups() async {
+    try {
+      if (await network.isConnected) {
+        final unsyncedGroups = await local.getUnsyncedGroups();
+        if (unsyncedGroups.isEmpty) return const Right(null);
+
+        for (final isarModel in unsyncedGroups) {
+          final remoteModel = GroupModel.fromEntity(
+            isarModel.toEntity(),
+            id: isarModel.remoteId,
+          );
+
+          await remote.addGroup(remoteModel);
+
+          isarModel.isSynced = true;
+          await local.saveGroup(isarModel);
+        }
+
+        log('تمت المزامنة بنجاح!');
+      }
+      return const Right(null);
+    } catch (e, stackTrace) {
+      log('خطأ أثناء المزامنة تلقائياً', error: e, stackTrace: stackTrace);
+      return Left(ServerFailure('فشلت عملية المزامنة التلقائية'));
+    }
+  }
 }

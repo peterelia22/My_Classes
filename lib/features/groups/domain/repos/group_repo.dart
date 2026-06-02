@@ -7,4 +7,5 @@ abstract class GroupRepo {
   Future<Either<Failure, void>> addGroup(GroupEntity group);
   Future<Either<Failure, void>> updateGroup(GroupEntity group);
   Future<Either<Failure, void>> deleteGroup(String id);
+  Future<Either<Failure, void>> syncUnsyncedGroups();
 }

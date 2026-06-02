@@ -9,6 +9,7 @@ import 'package:my_classes/features/groups/data/datasources/group_local_datasour
 import 'package:my_classes/features/groups/data/datasources/group_remote_datasource.dart';
 import 'package:my_classes/features/groups/data/repos/group_repo_impl.dart';
 import 'package:my_classes/features/groups/domain/repos/group_repo.dart';
+import 'package:my_classes/core/network/network_listener_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -38,6 +39,14 @@ Future<void> setupGetIt() async {
       remote: getIt<GroupRemoteDatasource>(),
       local: getIt<GroupLocalDatasource>(),
       network: getIt<NetworkInfo>(),
+    ),
+  );
+
+  // Network Listener
+  getIt.registerSingleton<NetworkListenerService>(
+    NetworkListenerService(
+      networkInfo: getIt<NetworkInfo>(),
+      groupRepo: getIt<GroupRepo>(),
     ),
   );
 }

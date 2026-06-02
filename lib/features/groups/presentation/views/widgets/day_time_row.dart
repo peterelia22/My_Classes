@@ -10,16 +10,16 @@ class DayTimeRow extends StatelessWidget {
     required this.timeLabel,
     required this.onDaySaved,
     required this.onTimeSaved,
-    required this.dayValidator,
-    required this.timeValidator,
+    this.dayValidator,
+    this.timeValidator,
   });
 
   final String dayLabel;
   final String timeLabel;
   final void Function(String?) onDaySaved;
   final void Function(String?) onTimeSaved;
-  final String? Function(String?) dayValidator;
-  final String? Function(String?) timeValidator;
+  final String? Function(String?)? dayValidator;
+  final String? Function(String?)? timeValidator;
 
   @override
   Widget build(BuildContext context) {

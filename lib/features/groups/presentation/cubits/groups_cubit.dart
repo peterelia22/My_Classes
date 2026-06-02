@@ -8,50 +8,50 @@ class GroupsCubit extends Cubit<GroupsState> {
   GroupsCubit(this.groupRepo) : super(GroupsInitial());
   final GroupRepo groupRepo;
 
+  List<GroupEntity> currentGroups = [];
+
   Future<void> getGroups() async {
     emit(GroupsLoading());
     final result = await groupRepo.getGroups();
     result.fold(
       (_) => emit(GroupsFailure(errorMessage: 'تعذر تحميل المجموعات')),
-      (groups) => emit(GroupsSuccess(groups: groups)),
+      (groups) {
+        currentGroups = groups;
+        emit(GroupsSuccess(groups: groups));
+      },
     );
   }
 
   Future<void> addGroup(GroupEntity group) async {
-    if (state is GroupsSuccess) {
-      final existingGroups = (state as GroupsSuccess).groups;
-      if (TimeConflictChecker.hasConflict(existingGroups, group)) {
-        emit(
-          GroupActionFailure(errorMessage: 'يوجد مجموعة أخرى في نفس الميعاد'),
-        );
-        return;
-      }
+    if (TimeConflictChecker.hasConflict(currentGroups, group)) {
+      emit(GroupActionFailure(errorMessage: 'يوجد مجموعة أخرى في نفس الميعاد'));
+      return;
     }
     emit(GroupsLoading());
     final result = await groupRepo.addGroup(group);
     result.fold(
       (_) => emit(GroupActionFailure(errorMessage: 'تعذر إضافة المجموعة')),
-      (_) => getGroups(),
+      (_) async {
+        emit(GroupActionSuccess());
+        await getGroups();
+      },
     );
   }
 
   Future<void> updateGroup(GroupEntity group) async {
-    if (state is GroupsSuccess) {
-      final existingGroups = (state as GroupsSuccess).groups
-          .where((g) => g.id != group.id)
-          .toList();
-      if (TimeConflictChecker.hasConflict(existingGroups, group)) {
-        emit(
-          GroupActionFailure(errorMessage: 'يوجد مجموعة أخرى في نفس الميعاد'),
-        );
-        return;
-      }
+    final otherGroups = currentGroups.where((g) => g.id != group.id).toList();
+    if (TimeConflictChecker.hasConflict(otherGroups, group)) {
+      emit(GroupActionFailure(errorMessage: 'يوجد مجموعة أخرى في نفس الميعاد'));
+      return;
     }
     emit(GroupsLoading());
     final result = await groupRepo.updateGroup(group);
     result.fold(
       (_) => emit(GroupActionFailure(errorMessage: 'تعذر تعديل المجموعة')),
-      (_) => getGroups(),
+      (_) async {
+        emit(GroupActionSuccess());
+        await getGroups();
+      },
     );
   }
 
@@ -60,7 +60,10 @@ class GroupsCubit extends Cubit<GroupsState> {
     final result = await groupRepo.deleteGroup(id);
     result.fold(
       (_) => emit(GroupActionFailure(errorMessage: 'تعذر حذف المجموعة')),
-      (_) => getGroups(),
+      (_) async {
+        emit(GroupActionSuccess());
+        await getGroups();
+      },
     );
   }
 }

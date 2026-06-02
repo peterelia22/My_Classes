@@ -1,4 +1,3 @@
-// groups_view_body_bloc_consumer.dart
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,14 +23,15 @@ class GroupsViewBodyBlocConsumer extends StatelessWidget {
           );
         }
         if (state is GroupActionSuccess) {
-          buildSnackBar(
-            context: context,
-            title: 'نجح',
-            message: 'تم حفظ المجموعة بنجاح',
-            contentType: ContentType.success,
-          );
-          Future.delayed(const Duration(milliseconds: 500), () {
-            if (context.mounted) Navigator.pop(context);
+          Future.delayed(const Duration(milliseconds: 300), () {
+            if (context.mounted) {
+              buildSnackBar(
+                context: context,
+                title: 'نجح',
+                message: 'تم حفظ المجموعة بنجاح',
+                contentType: ContentType.success,
+              );
+            }
           });
         }
       },
@@ -41,8 +41,8 @@ class GroupsViewBodyBlocConsumer extends StatelessWidget {
           child: state is GroupsFailure
               ? Center(child: Text(state.errorMessage))
               : state is GroupsSuccess
-                  ? GroupsViewBody(groups: state.groups)
-                  : const SizedBox(),
+              ? GroupsViewBody(groups: state.groups)
+              : const SizedBox(),
         );
       },
     );

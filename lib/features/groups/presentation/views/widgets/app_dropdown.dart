@@ -10,7 +10,7 @@ class AppDropdown extends StatelessWidget {
     required this.hintText,
     required this.items,
     required this.onSaved,
-    required this.validator,
+    this.validator,
     this.value,
   });
 
@@ -18,7 +18,7 @@ class AppDropdown extends StatelessWidget {
   final String hintText;
   final List<String> items;
   final void Function(String?) onSaved;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
   final String? value;
 
   @override
@@ -73,6 +73,9 @@ class AppDropdown extends StatelessWidget {
                 width: 1.4,
               ),
             ),
+            errorStyle: AppTextStyles.bodySmall.copyWith(
+              color: AppColors.errorColor,
+            ),
           ),
           style: AppTextStyles.bodyMedium.copyWith(
             color: AppColors.textPrimaryColor,
@@ -82,7 +85,14 @@ class AppDropdown extends StatelessWidget {
               .toList(),
           onChanged: (_) {},
           onSaved: onSaved,
-          validator: validator,
+          validator:
+              validator ??
+              (value) {
+                if (value == null || value.isEmpty) {
+                  return 'يرجى اختيار $labelText';
+                }
+                return null;
+              },
         ),
       ],
     );

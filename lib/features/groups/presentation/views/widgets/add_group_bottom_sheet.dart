@@ -32,8 +32,6 @@ class _AddGroupBottomSheetState extends State<AddGroupBottomSheet> {
   String? _time2;
   int _sessionDuration = 60;
 
-  String? _required(String? value, String label) =>
-      (value == null || value.trim().isEmpty) ? 'يرجى اختيار $label' : null;
 
   void _submit() {
     FocusScope.of(context).unfocus();
@@ -59,130 +57,129 @@ class _AddGroupBottomSheetState extends State<AddGroupBottomSheet> {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.backgroundColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-        ),
-        child: SafeArea(
-          top: false,
-          child: AnimatedPadding(
-            duration: const Duration(milliseconds: 180),
-            curve: Curves.easeOut,
-            padding: EdgeInsets.only(bottom: bottomInset),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-              child: Form(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: Container(
-                        width: 48,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: AppColors.borderColor,
-                          borderRadius: BorderRadius.circular(999),
+    return BlocListener<GroupsCubit, GroupsState>(
+      listener: (context, state) {
+        if (state is GroupActionSuccess) {
+          Navigator.pop(context);
+        }
+      },
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: AppColors.backgroundColor,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: SafeArea(
+            top: false,
+            child: AnimatedPadding(
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOut,
+              padding: EdgeInsets.only(bottom: bottomInset),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 48,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            color: AppColors.borderColor,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'إضافة مجموعة جديدة',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.headlineSmall.copyWith(
-                        color: AppColors.textPrimaryColor,
+                      const SizedBox(height: 20),
+                      Text(
+                        'إضافة مجموعة جديدة',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.headlineSmall.copyWith(
+                          color: AppColors.textPrimaryColor,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'اختر بيانات المجموعة وجدول الحصص ثم احفظ.',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textSecondaryColor,
+                      const SizedBox(height: 8),
+                      Text(
+                        'اختر بيانات المجموعة وجدول الحصص ثم احفظ.',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondaryColor,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    const SectionTitle(
-                      title: 'بيانات المجموعة',
-                      subtitle: 'المعلومات التعريفية الأساسية',
-                    ),
-                    const SizedBox(height: 16),
-                    CustomTextField(
-                      labelText: 'اسم المجموعة',
-                      hintText: 'مثال: المجموعة الأولى',
-                      obscureText: false,
-                      onSaved: (v) => _name = v,
-                      validator: (v) => _required(v, 'اسم المجموعة'),
-                    ),
-                    const SizedBox(height: 16),
-                    CustomTextField(
-                      labelText: 'العام الدراسي',
-                      hintText: 'مثال: 2025 - 2026',
-                      obscureText: false,
-                      keyboardType: TextInputType.number,
-                      onSaved: (v) => _academicYear = v,
-                      validator: (v) => _required(v, 'العام الدراسي'),
-                    ),
-                    const SizedBox(height: 16),
-                    AppDropdown(
-                      labelText: 'المرحلة / الصف',
-                      hintText: 'اختر الصف',
-                      items: AppConstants.gradeLevels,
-                      onSaved: (v) => _gradeLevel = v,
-                      validator: (v) => _required(v, 'المرحلة'),
-                    ),
-                    const SizedBox(height: 24),
-                    const SectionTitle(
-                      title: 'جدول الحصص',
-                      subtitle: 'اختر يومين ووقتين للمجموعة',
-                    ),
-                    const SizedBox(height: 16),
-                    DayTimeRow(
-                      dayLabel: 'اليوم الأول',
-                      timeLabel: 'الوقت الأول',
-                      onDaySaved: (v) => _day1 = v,
-                      onTimeSaved: (v) => _time1 = v,
-                      dayValidator: (v) => _required(v, 'اليوم الأول'),
-                      timeValidator: (v) => _required(v, 'الوقت الأول'),
-                    ),
-                    const SizedBox(height: 16),
-                    DayTimeRow(
-                      dayLabel: 'اليوم الثاني',
-                      timeLabel: 'الوقت الثاني',
-                      onDaySaved: (v) => _day2 = v,
-                      onTimeSaved: (v) => _time2 = v,
-                      dayValidator: (v) => _required(v, 'اليوم الثاني'),
-                      timeValidator: (v) => _required(v, 'الوقت الثاني'),
-                    ),
-                    const SizedBox(height: 16),
-                    AppDropdown(
-                      labelText: 'مدة الجلسة',
-                      hintText: 'اختر المدة',
-                      items: AppConstants.sessionDurations
-                          .map((e) => '$e دقيقة')
-                          .toList(),
-                      onSaved: (v) => _sessionDuration = int.parse(
-                        v!.replaceAll(' دقيقة', ''),
+                      const SizedBox(height: 24),
+                      const SectionTitle(
+                        title: 'بيانات المجموعة',
+                        subtitle: 'المعلومات التعريفية الأساسية',
                       ),
-                      validator: (v) => _required(v, 'مدة الجلسة'),
-                    ),
-                    const SizedBox(height: 28),
-                    BlocBuilder<GroupsCubit, GroupsState>(
-                      builder: (context, state) {
-                        final isLoading = state is GroupsLoading;
-                        return CustomButton(
-                          text: isLoading ? 'جاري الحفظ...' : 'حفظ المجموعة',
-                          onPressed: isLoading ? null : _submit,
-                          isLoading: isLoading,
-                        );
-                      },
-                    ),
-                  ],
+                      const SizedBox(height: 16),
+                      CustomTextField(
+                        labelText: 'اسم المجموعة',
+                        hintText: 'مثال: المجموعة الأولى',
+                        obscureText: false,
+                        onSaved: (v) => _name = v,
+                      ),
+                      const SizedBox(height: 16),
+                      CustomTextField(
+                        labelText: 'العام الدراسي',
+                        hintText: 'مثال: 2025 - 2026',
+                        obscureText: false,
+                        keyboardType: TextInputType.number,
+                        onSaved: (v) => _academicYear = v,
+                      ),
+                      const SizedBox(height: 16),
+                      AppDropdown(
+                        labelText: 'المرحلة / الصف',
+                        hintText: 'اختر الصف',
+                        items: AppConstants.gradeLevels,
+                        onSaved: (v) => _gradeLevel = v,
+                      ),
+                      const SizedBox(height: 24),
+                      const SectionTitle(
+                        title: 'جدول الحصص',
+                        subtitle: 'اختر يومين ووقتين للمجموعة',
+                      ),
+                      const SizedBox(height: 16),
+                      DayTimeRow(
+                        dayLabel: 'اليوم الأول',
+                        timeLabel: 'الوقت الأول',
+                        onDaySaved: (v) => _day1 = v,
+                        onTimeSaved: (v) => _time1 = v,
+                      ),
+                      const SizedBox(height: 16),
+                      DayTimeRow(
+                        dayLabel: 'اليوم الثاني',
+                        timeLabel: 'الوقت الثاني',
+                        onDaySaved: (v) => _day2 = v,
+                        onTimeSaved: (v) => _time2 = v,
+                      ),
+                      const SizedBox(height: 16),
+                      AppDropdown(
+                        labelText: 'مدة الجلسة',
+                        hintText: 'اختر المدة',
+                        items: AppConstants.sessionDurations
+                            .map((e) => '$e دقيقة')
+                            .toList(),
+                        onSaved: (v) => _sessionDuration = int.parse(
+                          v!.replaceAll(' دقيقة', ''),
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+                      BlocBuilder<GroupsCubit, GroupsState>(
+                        builder: (context, state) {
+                          final isLoading = state is GroupsLoading;
+                          return CustomButton(
+                            text: isLoading ? 'جاري الحفظ...' : 'حفظ المجموعة',
+                            onPressed: isLoading ? null : _submit,
+                            isLoading: isLoading,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

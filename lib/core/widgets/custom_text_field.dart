@@ -104,6 +104,9 @@ class CustomTextField extends StatelessWidget {
                     vertical: 16,
                     horizontal: 12,
                   ),
+                  errorStyle: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.errorColor,
+                  ),
                 ),
               ),
             ],

@@ -36,13 +36,12 @@ class GroupsViewBodyBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final cubit = context.read<GroupsCubit>();
         return CustomProgressHud(
           isLoading: state is GroupsLoading,
-          child: state is GroupsFailure
+          child: state is GroupsFailure && cubit.currentGroups.isEmpty
               ? Center(child: Text(state.errorMessage))
-              : state is GroupsSuccess
-              ? GroupsViewBody(groups: state.groups)
-              : const SizedBox(),
+              : GroupsViewBody(groups: cubit.currentGroups),
         );
       },
     );

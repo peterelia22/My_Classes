@@ -19,6 +19,7 @@ class AddGroupBottomSheet extends StatefulWidget {
 
 class _AddGroupBottomSheetState extends State<AddGroupBottomSheet> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   String? name;
   String? academicYear;
@@ -31,8 +32,15 @@ class _AddGroupBottomSheetState extends State<AddGroupBottomSheet> {
 
   void _submit() {
     FocusScope.of(context).unfocus();
-    if (!formKey.currentState!.validate()) return;
+    if (!formKey.currentState!.validate()) {
+      setState(() {
+        autovalidateMode = AutovalidateMode.always;
+      });
+      return;
+    }
     formKey.currentState!.save();
+
+    Navigator.pop(context);
 
     context.read<GroupsCubit>().addGroup(
       GroupEntity(
@@ -54,11 +62,7 @@ class _AddGroupBottomSheetState extends State<AddGroupBottomSheet> {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return BlocListener<GroupsCubit, GroupsState>(
-      listener: (context, state) {
-        if (state is GroupActionSuccess) {
-          Navigator.pop(context);
-        }
-      },
+      listener: (context, state) {},
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
@@ -76,7 +80,7 @@ class _AddGroupBottomSheetState extends State<AddGroupBottomSheet> {
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
                 child: Form(
                   key: formKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  autovalidateMode: autovalidateMode,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [

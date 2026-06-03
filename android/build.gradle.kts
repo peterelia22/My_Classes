@@ -5,6 +5,17 @@ allprojects {
     }
 }
 
+subprojects {
+    afterEvaluate {
+        val android = project.extensions.findByName("android")
+        if (android != null) {
+            (android as? com.android.build.gradle.BaseExtension)?.run {
+                compileSdkVersion(35)
+            }
+        }
+    }
+}
+
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
 rootProject.layout.buildDirectory.value(newBuildDir)
 

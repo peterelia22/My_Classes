@@ -32,8 +32,8 @@ class GroupsCubit extends Cubit<GroupsState> {
     result.fold(
       (_) => emit(GroupActionFailure(errorMessage: 'تعذر إضافة المجموعة')),
       (_) async {
-        emit(GroupActionSuccess());
         await getGroups();
+        emit(GroupActionSuccess());
       },
     );
   }
@@ -49,8 +49,8 @@ class GroupsCubit extends Cubit<GroupsState> {
     result.fold(
       (_) => emit(GroupActionFailure(errorMessage: 'تعذر تعديل المجموعة')),
       (_) async {
-        emit(GroupActionSuccess());
         await getGroups();
+        emit(GroupActionSuccess());
       },
     );
   }
@@ -61,8 +61,8 @@ class GroupsCubit extends Cubit<GroupsState> {
     result.fold(
       (_) => emit(GroupActionFailure(errorMessage: 'تعذر حذف المجموعة')),
       (_) async {
-        emit(GroupActionSuccess());
         await getGroups();
+        emit(GroupActionSuccess());
       },
     );
   }

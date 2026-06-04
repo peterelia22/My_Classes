@@ -3,6 +3,10 @@ import 'package:my_classes/core/theme/app_text_styles.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../domain/entities/group_entity.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../cubits/groups_cubit.dart';
+import '../group_details_view.dart';
+
 class GroupCard extends StatelessWidget {
   final GroupEntity group;
   const GroupCard({super.key, required this.group});
@@ -11,7 +15,14 @@ class GroupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator → GroupDetailsView
+        Navigator.pushNamed(
+          context,
+          GroupDetailsView.routeName,
+          arguments: {
+            'group': group,
+            'cubit': context.read<GroupsCubit>(),
+          },
+        );
       },
       child: Container(
         padding: const EdgeInsets.all(16),

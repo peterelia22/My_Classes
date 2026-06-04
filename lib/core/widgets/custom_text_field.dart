@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     this.onSaved,
     this.validator,
     this.maxLines = 1,
+    this.initialValue,
   });
   final String labelText;
   final String hintText;
@@ -25,6 +26,7 @@ class CustomTextField extends StatelessWidget {
   final void Function(String?)? onSaved;
   final String? Function(String?)? validator;
   final int maxLines;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class CustomTextField extends StatelessWidget {
                 ),
               ),
               TextFormField(
+                initialValue: initialValue,
                 validator:
                     validator ??
                     (value) {

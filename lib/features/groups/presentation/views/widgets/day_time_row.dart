@@ -12,6 +12,8 @@ class DayTimeRow extends StatelessWidget {
     required this.onTimeSaved,
     this.dayValidator,
     this.timeValidator,
+    this.initialDay,
+    this.initialTime,
   });
 
   final String dayLabel;
@@ -20,6 +22,8 @@ class DayTimeRow extends StatelessWidget {
   final void Function(String?) onTimeSaved;
   final String? Function(String?)? dayValidator;
   final String? Function(String?)? timeValidator;
+  final String? initialDay;
+  final String? initialTime;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +36,7 @@ class DayTimeRow extends StatelessWidget {
             items: AppConstants.days,
             onSaved: onDaySaved,
             validator: dayValidator,
+            value: initialDay,
           ),
         ),
         const SizedBox(width: 12),
@@ -42,6 +47,7 @@ class DayTimeRow extends StatelessWidget {
             items: AppConstants.timeSlots,
             onSaved: onTimeSaved,
             validator: timeValidator,
+            value: initialTime,
           ),
         ),
       ],

@@ -21,6 +21,8 @@ final class GroupsFailure extends GroupsState {
 
 final class GroupActionSuccess extends GroupsState {}
 
+final class GroupDeleteSuccess extends GroupsState {}
+
 final class GroupActionFailure extends GroupsState {
   final String errorMessage;
   GroupActionFailure({required this.errorMessage});

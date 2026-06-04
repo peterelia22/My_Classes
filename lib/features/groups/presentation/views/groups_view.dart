@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_classes/features/groups/presentation/views/widgets/groups_view_body.dart';
 import 'package:my_classes/features/groups/presentation/views/widgets/groups_view_body_bloc_consumer.dart';
 
 class GroupsView extends StatelessWidget {

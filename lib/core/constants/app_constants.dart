@@ -1,4 +1,3 @@
-// app_constants.dart
 class AppConstants {
   static const List<String> gradeLevels = [
     'رابع ابتدائي',
@@ -23,7 +22,7 @@ class AppConstants {
 
   static List<String> get timeSlots {
     final slots = <String>[];
-    for (int h = 7; h <= 22; h++) {
+    for (int h = 1; h <= 12; h++) {
       slots.add('${h.toString().padLeft(2, '0')}:00');
       slots.add('${h.toString().padLeft(2, '0')}:30');
     }

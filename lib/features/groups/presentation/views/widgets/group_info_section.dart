@@ -8,12 +8,18 @@ class GroupInfoSection extends StatelessWidget {
   final FormFieldSetter<String> onNameSaved;
   final FormFieldSetter<String> onAcademicYearSaved;
   final FormFieldSetter<String> onGradeLevelSaved;
+  final String? initialName;
+  final String? initialAcademicYear;
+  final String? initialGradeLevel;
 
   const GroupInfoSection({
     super.key,
     required this.onNameSaved,
     required this.onAcademicYearSaved,
     required this.onGradeLevelSaved,
+    this.initialName,
+    this.initialAcademicYear,
+    this.initialGradeLevel,
   });
 
   String? _required(String? value, String label) =>
@@ -35,6 +41,7 @@ class GroupInfoSection extends StatelessWidget {
           obscureText: false,
           onSaved: onNameSaved,
           validator: (v) => _required(v, 'اسم المجموعة'),
+          initialValue: initialName,
         ),
         const SizedBox(height: 16),
         CustomTextField(
@@ -44,6 +51,7 @@ class GroupInfoSection extends StatelessWidget {
           keyboardType: TextInputType.number,
           onSaved: onAcademicYearSaved,
           validator: (v) => _required(v, 'العام الدراسي'),
+          initialValue: initialAcademicYear,
         ),
         const SizedBox(height: 16),
         AppDropdown(
@@ -52,6 +60,7 @@ class GroupInfoSection extends StatelessWidget {
           items: AppConstants.gradeLevels,
           onSaved: onGradeLevelSaved,
           validator: (v) => _required(v, 'المرحلة'),
+          value: initialGradeLevel,
         ),
       ],
     );

@@ -10,6 +10,11 @@ class GroupScheduleSection extends StatelessWidget {
   final FormFieldSetter<String> onDay2Saved;
   final FormFieldSetter<String> onTime2Saved;
   final FormFieldSetter<String> onDurationSaved;
+  final String? initialDay1;
+  final String? initialTime1;
+  final String? initialDay2;
+  final String? initialTime2;
+  final int? initialDuration;
 
   const GroupScheduleSection({
     super.key,
@@ -18,6 +23,11 @@ class GroupScheduleSection extends StatelessWidget {
     required this.onDay2Saved,
     required this.onTime2Saved,
     required this.onDurationSaved,
+    this.initialDay1,
+    this.initialTime1,
+    this.initialDay2,
+    this.initialTime2,
+    this.initialDuration,
   });
 
   @override
@@ -35,6 +45,8 @@ class GroupScheduleSection extends StatelessWidget {
           timeLabel: 'الوقت الأول',
           onDaySaved: onDay1Saved,
           onTimeSaved: onTime1Saved,
+          initialDay: initialDay1,
+          initialTime: initialTime1,
         ),
         const SizedBox(height: 16),
         DayTimeRow(
@@ -42,6 +54,8 @@ class GroupScheduleSection extends StatelessWidget {
           timeLabel: 'الوقت الثاني',
           onDaySaved: onDay2Saved,
           onTimeSaved: onTime2Saved,
+          initialDay: initialDay2,
+          initialTime: initialTime2,
         ),
         const SizedBox(height: 16),
         AppDropdown(
@@ -51,6 +65,7 @@ class GroupScheduleSection extends StatelessWidget {
               .map((e) => '$e دقيقة')
               .toList(),
           onSaved: onDurationSaved,
+          value: initialDuration != null ? '$initialDuration دقيقة' : null,
         ),
       ],
     );

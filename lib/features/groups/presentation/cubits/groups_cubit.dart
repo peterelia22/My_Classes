@@ -62,7 +62,7 @@ class GroupsCubit extends Cubit<GroupsState> {
       (_) => emit(GroupActionFailure(errorMessage: 'تعذر حذف المجموعة')),
       (_) async {
         await getGroups();
-        emit(GroupActionSuccess());
+        emit(GroupDeleteSuccess());
       },
     );
   }

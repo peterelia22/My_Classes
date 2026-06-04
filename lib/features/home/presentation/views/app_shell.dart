@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/features/groups/presentation/views/groups_view.dart';
-import 'package:my_classes/features/groups/presentation/views/widgets/add_group_bottom_sheet.dart';
+import 'package:my_classes/features/groups/presentation/views/widgets/group_bottom_sheet.dart';
 import 'package:my_classes/features/home/presentation/views/home_layout.dart';
 import 'package:my_classes/features/home/presentation/views/widgets/custom_navigation_bar.dart';
 
@@ -57,7 +57,7 @@ class AppShellState extends State<AppShell> {
                       backgroundColor: Colors.transparent,
                       builder: (_) => BlocProvider.value(
                         value: context.read<GroupsCubit>(),
-                        child: const AddGroupBottomSheet(),
+                        child: const GroupBottomSheet(),
                       ),
                     );
                   },

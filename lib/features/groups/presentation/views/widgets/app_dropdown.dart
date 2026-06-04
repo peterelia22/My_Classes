@@ -12,6 +12,7 @@ class AppDropdown extends StatelessWidget {
     required this.onSaved,
     this.validator,
     this.value,
+    this.onChanged,
   });
 
   final String labelText;
@@ -20,9 +21,15 @@ class AppDropdown extends StatelessWidget {
   final void Function(String?) onSaved;
   final String? Function(String?)? validator;
   final String? value;
+  final void Function(String?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
+    final dropdownItems = List<String>.from(items);
+    if (value != null && value!.isNotEmpty && !dropdownItems.contains(value)) {
+      dropdownItems.add(value!);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -80,10 +87,10 @@ class AppDropdown extends StatelessWidget {
           style: AppTextStyles.bodyMedium.copyWith(
             color: AppColors.textPrimaryColor,
           ),
-          items: items
+          items: dropdownItems
               .map((e) => DropdownMenuItem(value: e, child: Text(e)))
               .toList(),
-          onChanged: (_) {},
+          onChanged: onChanged ?? (_) {},
           onSaved: onSaved,
           validator:
               validator ??

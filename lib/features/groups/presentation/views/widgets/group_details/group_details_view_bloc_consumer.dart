@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/core/helpers/build_snack_bar.dart';
 import 'package:my_classes/core/widgets/custom_progress_hud.dart';
-import '../../../domain/entities/group_entity.dart';
-import '../../cubits/groups_cubit.dart';
-import '../../cubits/groups_state.dart';
+import '../../../../domain/entities/group_entity.dart';
+import '../../../cubits/groups_cubit.dart';
+import '../../../cubits/groups_state.dart';
 import 'group_details_view_body.dart';
 
 class GroupDetailsViewBlocConsumer extends StatelessWidget {

@@ -357,6 +357,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_week_view:
+    dependency: "direct main"
+    description:
+      name: flutter_week_view
+      sha256: "74fc36a6e3406c345477df1f94eab07c7b7f95862f1b56be6ef6e82668b6cb29"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.5"
   frontend_server_client:
     dependency: transitive
     description:

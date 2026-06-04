@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/core/helpers/build_snack_bar.dart';
 import 'package:my_classes/core/widgets/custom_progress_hud.dart';
-import '../../cubits/groups_cubit.dart';
-import '../../cubits/groups_state.dart';
+import '../../../cubits/groups_cubit.dart';
+import '../../../cubits/groups_state.dart';
 import 'groups_view_body.dart';
 
 class GroupsViewBodyBlocConsumer extends StatelessWidget {

@@ -41,4 +41,35 @@ abstract class AppColors {
   // Attendance specific
   static const Color checkInColor = Color(0xFF00BCD4);
   static const Color checkOutColor = Color(0xFF9C27B0);
+  // ─── Session / Calendar Colors ───────────────────────────────────────────
+
+  static const List<Color> sessionBgColors = [
+    Color(0xFFEEEDFE),
+    Color(0xFFE1F5EE),
+    Color(0xFFFAECE7),
+    Color(0xFFFBEAF0),
+    Color(0xFFE6F1FB),
+    Color(0xFFEAF3DE),
+    Color(0xFFFAEEDA),
+  ];
+
+  static const List<Color> sessionTextColors = [
+    Color(0xFF3C3489),
+    Color(0xFF085041),
+    Color(0xFF712B13),
+    Color(0xFF72243E),
+    Color(0xFF0C447C),
+    Color(0xFF27500A),
+    Color(0xFF633806),
+  ];
+
+  static const List<Color> sessionSubTextColors = [
+    Color(0xFF534AB7),
+    Color(0xFF0F6E56),
+    Color(0xFF993C1D),
+    Color(0xFF993556),
+    Color(0xFF185FA5),
+    Color(0xFF3B6D11),
+    Color(0xFF854F0B),
+  ];
 }

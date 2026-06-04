@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/core/theme/app_text_styles.dart';
 import 'package:my_classes/core/widgets/app_card.dart';
-import '../../../domain/entities/group_entity.dart';
-import '../../cubits/groups_cubit.dart';
-import '../group_details_view.dart';
+import '../../../../domain/entities/group_entity.dart';
+import '../../../cubits/groups_cubit.dart';
+import '../../group_details_view.dart';
 
 class GroupCard extends StatelessWidget {
   final GroupEntity group;

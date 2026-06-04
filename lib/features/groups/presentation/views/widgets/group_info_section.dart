@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_classes/core/constants/app_constants.dart';
 import 'package:my_classes/core/widgets/custom_text_field.dart';
-import 'app_dropdown.dart';
-import 'section_title.dart';
+import '../../../../../core/widgets/app_dropdown.dart';
+import '../../../../../core/widgets/section_title.dart';
 
 class GroupInfoSection extends StatelessWidget {
   final FormFieldSetter<String> onNameSaved;

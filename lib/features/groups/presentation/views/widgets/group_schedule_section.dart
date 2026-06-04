@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_classes/core/constants/app_constants.dart';
-import 'app_dropdown.dart';
+import '../../../../../core/widgets/app_dropdown.dart';
 import 'day_time_row.dart';
-import 'section_title.dart';
+import '../../../../../core/widgets/section_title.dart';
 
 class GroupScheduleSection extends StatelessWidget {
   final FormFieldSetter<String> onDay1Saved;
@@ -61,9 +61,7 @@ class GroupScheduleSection extends StatelessWidget {
         AppDropdown(
           labelText: 'مدة الجلسة',
           hintText: 'اختر المدة',
-          items: AppConstants.sessionDurations
-              .map((e) => '$e دقيقة')
-              .toList(),
+          items: AppConstants.sessionDurations.map((e) => '$e دقيقة').toList(),
           onSaved: onDurationSaved,
           value: initialDuration != null ? '$initialDuration دقيقة' : null,
         ),

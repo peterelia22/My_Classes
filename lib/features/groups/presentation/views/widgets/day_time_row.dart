@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_classes/core/constants/app_constants.dart';
 
-import 'app_dropdown.dart';
+import '../../../../../core/widgets/app_dropdown.dart';
 
 class DayTimeRow extends StatelessWidget {
   const DayTimeRow({

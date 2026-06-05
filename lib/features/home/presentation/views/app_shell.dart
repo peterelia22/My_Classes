@@ -5,10 +5,10 @@ import 'package:my_classes/features/groups/presentation/views/groups_view.dart';
 import 'package:my_classes/features/groups/presentation/views/widgets/group_bottom_sheet.dart';
 import 'package:my_classes/features/home/presentation/views/home_layout.dart';
 import 'package:my_classes/features/home/presentation/views/widgets/custom_navigation_bar.dart';
-
 import '../../../../core/services/get_it_service.dart';
 import '../../../groups/domain/repos/group_repo.dart';
 import '../../../groups/presentation/cubits/groups_cubit.dart';
+import '../../../students/presentation/views/students_view.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -25,7 +25,7 @@ class AppShellState extends State<AppShell> {
   final List<Widget> _screens = const [
     HomeLayout(),
     GroupsView(),
-    Placeholder(),
+    StudentsView(),
     Placeholder(),
   ];
 

@@ -2,6 +2,8 @@ import 'package:isar/isar.dart';
 import 'package:my_classes/features/groups/data/models/group_isar_model.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../features/students/data/models/student_isar_model.dart';
+
 class IsarService {
   late final Isar isar;
 
@@ -9,7 +11,7 @@ class IsarService {
     final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open([
       GroupIsarModelSchema,
-      // StudentIsarModelSchema,
+      StudentIsarModelSchema,
       // SessionIsarModelSchema,
       // AttendanceIsarModelSchema,
       // PaymentIsarModelSchema,

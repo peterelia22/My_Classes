@@ -34,7 +34,7 @@ class StudentsCubit extends Cubit<StudentsState> {
     result.fold((f) => emit(StudentActionFailure(errorMessage: f.message)), (
       _,
     ) async {
-      await getStudents(currentGroupId!);
+      await getStudents(student.groupId);
       emit(StudentActionSuccess());
     });
   }

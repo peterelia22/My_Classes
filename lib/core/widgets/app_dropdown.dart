@@ -1,10 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/core/theme/app_text_styles.dart';
 
-class AppDropdown extends StatelessWidget {
+class AppDropdown extends StatefulWidget {
   const AppDropdown({
     super.key,
     required this.labelText,
@@ -25,6 +24,34 @@ class AppDropdown extends StatelessWidget {
   final void Function(String?)? onChanged;
 
   @override
+  State<AppDropdown> createState() => _AppDropdownState();
+}
+
+class _AppDropdownState extends State<AppDropdown> {
+  String? _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _initValue();
+  }
+
+  @override
+  void didUpdateWidget(AppDropdown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.items != widget.items || oldWidget.value != widget.value) {
+      _initValue();
+    }
+  }
+
+  void _initValue() {
+    final items = widget.items.toSet().toList();
+    _selectedValue = (widget.value != null && items.contains(widget.value))
+        ? widget.value
+        : null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     const textColor = AppColors.textPrimaryColor;
     const hintColor = AppColors.textSecondaryColor;
@@ -32,16 +59,13 @@ class AppDropdown extends StatelessWidget {
     const focusedBorderColor = AppColors.primaryColor;
     const backgroundColor = AppColors.surfaceColor;
 
-    final dropdownItems = List<String>.from(items);
-    if (value != null && value!.isNotEmpty && !dropdownItems.contains(value)) {
-      dropdownItems.add(value!);
-    }
+    final dropdownItems = widget.items.toSet().toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          labelText,
+          widget.labelText,
           style: AppTextStyles.labelLarge.copyWith(color: textColor),
         ),
         const SizedBox(height: 8),
@@ -61,10 +85,10 @@ class AppDropdown extends StatelessWidget {
                 ),
               ),
               DropdownButtonFormField<String>(
-                value: value,
+                value: _selectedValue, // ✅
                 isExpanded: true,
                 decoration: InputDecoration(
-                  hintText: hintText,
+                  hintText: widget.hintText,
                   hintStyle: AppTextStyles.bodyMedium.copyWith(
                     color: hintColor,
                   ),
@@ -104,13 +128,16 @@ class AppDropdown extends StatelessWidget {
                 items: dropdownItems
                     .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                     .toList(),
-                onChanged: onChanged ?? (_) {},
-                onSaved: onSaved,
+                onChanged: (v) {
+                  setState(() => _selectedValue = v);
+                  widget.onChanged?.call(v);
+                },
+                onSaved: widget.onSaved,
                 validator:
-                    validator ??
+                    widget.validator ??
                     (value) {
                       if (value == null || value.isEmpty) {
-                        return 'يرجى اختيار $labelText';
+                        return 'يرجى اختيار ${widget.labelText}';
                       }
                       return null;
                     },

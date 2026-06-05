@@ -11,7 +11,7 @@ import 'group_info_section.dart';
 import 'group_schedule_section.dart';
 
 class GroupBottomSheet extends StatefulWidget {
-  final GroupEntity? group; // null = add, not null = edit
+  final GroupEntity? group;
 
   const GroupBottomSheet({super.key, this.group});
 

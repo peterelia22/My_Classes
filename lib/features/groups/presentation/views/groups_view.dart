@@ -3,7 +3,6 @@ import 'package:my_classes/features/groups/presentation/views/widgets/groups_vie
 
 class GroupsView extends StatelessWidget {
   const GroupsView({super.key});
-  static const String routeName = '/groups';
   @override
   Widget build(BuildContext context) {
     return const Scaffold(body: GroupsViewBodyBlocConsumer());

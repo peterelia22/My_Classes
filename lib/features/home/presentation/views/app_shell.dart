@@ -5,10 +5,13 @@ import 'package:my_classes/features/groups/presentation/views/groups_view.dart';
 import 'package:my_classes/features/groups/presentation/views/widgets/group_bottom_sheet.dart';
 import 'package:my_classes/features/home/presentation/views/home_layout.dart';
 import 'package:my_classes/features/home/presentation/views/widgets/custom_navigation_bar.dart';
+import 'package:my_classes/features/students/presentation/views/students_view.dart';
 import '../../../../core/services/get_it_service.dart';
 import '../../../groups/domain/repos/group_repo.dart';
 import '../../../groups/presentation/cubits/groups_cubit.dart';
-import '../../../students/presentation/views/students_view.dart';
+import '../../../students/domain/repos/student_repo.dart';
+import '../../../students/presentation/cubits/students_cubit.dart';
+import 'widgets/app_shell_fab.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -22,7 +25,7 @@ class AppShellState extends State<AppShell> {
   int currentIndex = 0;
   late final PageController pageController;
 
-  final List<Widget> _screens = const [
+  final List<Widget> screens = const [
     HomeLayout(),
     GroupsView(),
     StudentsView(),
@@ -43,37 +46,26 @@ class AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => GroupsCubit(getIt<GroupRepo>())..getGroups(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => GroupsCubit(getIt<GroupRepo>())..getGroups(),
+        ),
+        BlocProvider(create: (_) => StudentsCubit(getIt<StudentRepo>())),
+      ],
       child: Builder(
         builder: (context) => Scaffold(
           extendBody: true,
-          floatingActionButton: currentIndex == 1
-              ? FloatingActionButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (_) => BlocProvider.value(
-                        value: context.read<GroupsCubit>(),
-                        child: const GroupBottomSheet(),
-                      ),
-                    );
-                  },
-                  backgroundColor: AppColors.primaryColor,
-                  child: const Icon(Icons.add, color: Colors.white),
-                )
+          floatingActionButton: currentIndex == 1 || currentIndex == 2
+              ? AppShellFab(currentIndex: currentIndex)
               : null,
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           body: PageView(
             controller: pageController,
             onPageChanged: (index) {
-              setState(() {
-                currentIndex = index;
-              });
+              setState(() => currentIndex = index);
             },
-            children: _screens,
+            children: screens,
           ),
           bottomNavigationBar: CustomNavigationBar(
             selectedIndex: currentIndex,

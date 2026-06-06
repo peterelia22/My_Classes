@@ -16,6 +16,14 @@ class GroupDetailsViewBody extends StatelessWidget {
 
   const GroupDetailsViewBody({super.key, required this.group});
 
+  void _showEditBottomSheet(BuildContext context) {
+    showAppBottomSheet(
+      context: context,
+      providers: [BlocProvider.value(value: context.read<GroupsCubit>())],
+      child: GroupBottomSheet(group: group),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,19 +60,15 @@ class GroupDetailsViewBody extends StatelessWidget {
             const SizedBox(height: 40),
             AppDetailsActionsRow(
               deleteLabel: 'حذف المجموعة',
-              onEdit: () => showAppBottomSheet(
-                context: context,
-                providers: [
-                  BlocProvider.value(value: context.read<GroupsCubit>()),
-                ],
-                child: GroupBottomSheet(group: group),
-              ),
+              onEdit: () => _showEditBottomSheet(context),
               onDelete: () {
                 AppDeleteConfirmationDialog.show(
                   context: context,
                   title: 'حذف المجموعة',
-                  content: 'هل أنت متأكد من رغبتك في حذف مجموعة "${group.name}"؟ لا يمكن التراجع عن هذا الإجراء.',
-                  onDelete: () => context.read<GroupsCubit>().deleteGroup(group.id),
+                  content:
+                      'هل أنت متأكد من رغبتك في حذف مجموعة "${group.name}"؟ لا يمكن التراجع عن هذا الإجراء.',
+                  onDelete: () =>
+                      context.read<GroupsCubit>().deleteGroup(group.id),
                 );
               },
             ),

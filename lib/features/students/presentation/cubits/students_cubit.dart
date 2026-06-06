@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import '../../domain/entities/student_entity.dart';
 import '../../domain/repos/student_repo.dart';
@@ -10,15 +12,15 @@ class StudentsCubit extends Cubit<StudentsState> {
   List<StudentEntity> currentStudents = [];
   String? currentGroupId;
 
-  Future<void> getStudents(String groupId) async {
-    currentGroupId = groupId;
+  Future<void> getAllStudents() async {
     emit(StudentsLoading());
-    final result = await studentRepo.getStudentsByGroup(groupId);
+    final result = await studentRepo.getAllStudents();
     result.fold((f) => emit(StudentsFailure(errorMessage: f.message)), (
       students,
     ) {
       currentStudents = students;
       emit(StudentsSuccess(students: students));
+      log('Students: ${currentStudents.length}');
     });
   }
 
@@ -34,7 +36,7 @@ class StudentsCubit extends Cubit<StudentsState> {
     result.fold((f) => emit(StudentActionFailure(errorMessage: f.message)), (
       _,
     ) async {
-      await getStudents(student.groupId);
+      await getAllStudents();
       emit(StudentActionSuccess());
     });
   }
@@ -45,7 +47,7 @@ class StudentsCubit extends Cubit<StudentsState> {
     result.fold((f) => emit(StudentActionFailure(errorMessage: f.message)), (
       _,
     ) async {
-      await getStudents(currentGroupId!);
+      await getAllStudents();
       emit(StudentActionSuccess());
     });
   }
@@ -56,7 +58,7 @@ class StudentsCubit extends Cubit<StudentsState> {
     result.fold((f) => emit(StudentActionFailure(errorMessage: f.message)), (
       _,
     ) async {
-      await getStudents(currentGroupId!);
+      await getAllStudents();
       emit(StudentDeleteSuccess());
     });
   }

@@ -24,36 +24,6 @@ class StudentRepoImpl implements StudentRepo {
   });
 
   @override
-  Future<Either<Failure, List<StudentEntity>>> getStudentsByGroup(
-    String groupId,
-  ) async {
-    try {
-      if (await network.isConnected) {
-        final students = await remote.getStudentsByGroup(groupId);
-        final isarStudents = students
-            .map((e) => StudentIsarModel.fromEntity(e, isSynced: true))
-            .toList();
-        await local.saveStudents(isarStudents);
-        return Right(students);
-      } else {
-        final localStudents = await local.getStudentsByGroup(groupId);
-        return Right(localStudents.map((e) => e.toEntity()).toList());
-      }
-    } on CustomException catch (e) {
-      return Left(ServerFailure(e.message));
-    } on SocketException {
-      return Left(ServerFailure('لا يوجد اتصال بالإنترنت'));
-    } catch (e, stackTrace) {
-      log(
-        'StudentRepoImpl.getStudentsByGroup failed',
-        error: e,
-        stackTrace: stackTrace,
-      );
-      return Left(ServerFailure('حدث خطأ أثناء تحميل الطلاب'));
-    }
-  }
-
-  @override
   Future<Either<Failure, void>> addStudent({
     required StudentEntity student,
     required String password,
@@ -169,6 +139,34 @@ class StudentRepoImpl implements StudentRepo {
     } catch (e, stackTrace) {
       log('خطأ أثناء مزامنة الطلاب', error: e, stackTrace: stackTrace);
       return Left(ServerFailure('فشلت عملية المزامنة'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<StudentEntity>>> getAllStudents() async {
+    try {
+      if (await network.isConnected) {
+        final students = await remote.getAllStudents();
+        final isarStudents = students
+            .map((e) => StudentIsarModel.fromEntity(e, isSynced: true))
+            .toList();
+        await local.saveStudents(isarStudents);
+        return Right(students);
+      } else {
+        final localStudents = await local.getAllStudents();
+        return Right(localStudents.map((e) => e.toEntity()).toList());
+      }
+    } on CustomException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ServerFailure('لا يوجد اتصال بالإنترنت'));
+    } catch (e, stackTrace) {
+      log(
+        'StudentRepoImpl.getAllStudents failed',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return Left(ServerFailure('حدث خطأ أثناء تحميل الطلاب'));
     }
   }
 }

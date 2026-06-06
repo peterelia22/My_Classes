@@ -51,7 +51,9 @@ class AppShellState extends State<AppShell> {
         BlocProvider(
           create: (_) => GroupsCubit(getIt<GroupRepo>())..getGroups(),
         ),
-        BlocProvider(create: (_) => StudentsCubit(getIt<StudentRepo>())),
+        BlocProvider(
+          create: (_) => StudentsCubit(getIt<StudentRepo>())..getAllStudents(),
+        ),
       ],
       child: Builder(
         builder: (context) => Scaffold(

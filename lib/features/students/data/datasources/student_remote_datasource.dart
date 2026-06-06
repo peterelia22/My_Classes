@@ -8,12 +8,9 @@ class StudentRemoteDatasource {
   final SupabaseDatabaseService db;
   StudentRemoteDatasource({required this.db});
 
-  Future<List<StudentModel>> getStudentsByGroup(String groupId) async {
+  Future<List<StudentModel>> getAllStudents() async {
     try {
-      final data = await db.getData(
-        path: BackendEndpoints.students,
-        query: {'group_id': groupId},
-      );
+      final data = await db.getData(path: BackendEndpoints.students);
       return (data as List).map((e) => StudentModel.fromJson(e)).toList();
     } catch (e) {
       throw CustomException(message: e.toString());

@@ -7,11 +7,8 @@ class StudentLocalDatasource {
   final IsarService isarService;
   StudentLocalDatasource({required this.isarService});
 
-  Future<List<StudentIsarModel>> getStudentsByGroup(String groupId) async {
-    return await isarService.isar.studentIsarModels
-        .filter()
-        .groupIdEqualTo(groupId)
-        .findAll();
+  Future<List<StudentIsarModel>> getAllStudents() async {
+    return await isarService.isar.studentIsarModels.where().findAll();
   }
 
   Future<void> saveStudent(StudentIsarModel student) async {

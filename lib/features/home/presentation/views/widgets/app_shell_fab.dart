@@ -17,12 +17,14 @@ class AppShellFab extends StatelessWidget {
     if (currentIndex == 1) {
       return FloatingActionButton(
         onPressed: () {
-          showAppBottomSheet(
+          showModalBottomSheet(
             context: context,
-            providers: [
-              BlocProvider.value(value: context.read<GroupsCubit>()),
-            ],
-            child: const GroupBottomSheet(),
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (_) => BlocProvider.value(
+              value: context.read<GroupsCubit>(),
+              child: const GroupBottomSheet(),
+            ),
           );
         },
         backgroundColor: AppColors.primaryColor,
@@ -33,14 +35,18 @@ class AppShellFab extends StatelessWidget {
     if (currentIndex == 2) {
       return FloatingActionButton(
         onPressed: () {
-          showAppBottomSheet(
+          showModalBottomSheet(
             context: context,
-            providers: [
-              BlocProvider.value(value: context.read<StudentsCubit>()),
-              BlocProvider.value(value: context.read<GroupsCubit>()),
-            ],
-            child: StudentBottomSheet(
-              groups: context.read<GroupsCubit>().currentGroups,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (_) => MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: context.read<StudentsCubit>()),
+                BlocProvider.value(value: context.read<GroupsCubit>()),
+              ],
+              child: StudentBottomSheet(
+                groups: context.read<GroupsCubit>().currentGroups,
+              ),
             ),
           );
         },

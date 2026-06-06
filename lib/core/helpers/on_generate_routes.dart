@@ -6,6 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/features/groups/presentation/cubits/groups_cubit.dart';
 import 'package:my_classes/features/groups/presentation/views/group_details_view.dart';
 import 'package:my_classes/features/groups/domain/entities/group_entity.dart';
+import 'package:my_classes/features/students/domain/entities/student_entity.dart';
+import 'package:my_classes/features/students/presentation/cubits/students_cubit.dart';
+import 'package:my_classes/features/students/presentation/views/student_details_view.dart';
 
 Route<dynamic> onGenerateRoutes(RouteSettings settings) {
   switch (settings.name) {
@@ -23,6 +26,20 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
         builder: (context) => BlocProvider.value(
           value: cubit,
           child: GroupDetailsView(group: group),
+        ),
+      );
+    case StudentDetailsView.routeName:
+      final args = settings.arguments as Map<String, dynamic>;
+      final student = args['student'] as StudentEntity;
+      final studentsCubit = args['studentsCubit'] as StudentsCubit;
+      final groupsCubit = args['groupsCubit'] as GroupsCubit;
+      return MaterialPageRoute(
+        builder: (context) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: studentsCubit),
+            BlocProvider.value(value: groupsCubit),
+          ],
+          child: StudentDetailsView(student: student),
         ),
       );
     default:

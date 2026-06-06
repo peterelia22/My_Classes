@@ -10,32 +10,35 @@ class GroupsViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (groups.isEmpty)
-            Expanded(
-              child: Center(
-                child: Text(
-                  'لا توجد مجموعات بعد',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.textSecondaryColor,
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (groups.isEmpty)
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'لا توجد مجموعات بعد',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondaryColor,
+                    ),
                   ),
                 ),
+              )
+            else
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.only(bottom: 120),
+                  itemCount: groups.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (_, index) => GroupCard(group: groups[index]),
+                ),
               ),
-            )
-          else
-            Expanded(
-              child: ListView.separated(
-                padding: EdgeInsets.zero,
-                itemCount: groups.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (_, index) => GroupCard(group: groups[index]),
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

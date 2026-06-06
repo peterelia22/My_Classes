@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/theme/app_colors.dart';
-import '../../../../../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 
-class GroupDetailsActionsRow extends StatelessWidget {
+class AppDetailsActionsRow extends StatelessWidget {
+  final String deleteLabel;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
-  const GroupDetailsActionsRow({
+  const AppDetailsActionsRow({
     super.key,
+    required this.deleteLabel,
     required this.onEdit,
     required this.onDelete,
   });
@@ -37,7 +39,7 @@ class GroupDetailsActionsRow extends StatelessWidget {
           child: OutlinedButton.icon(
             onPressed: onDelete,
             icon: const Icon(Icons.delete_outline, size: 18),
-            label: const Text('حذف المجموعة'),
+            label: Text(deleteLabel),
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.errorColor,
               side: const BorderSide(color: AppColors.errorColor),

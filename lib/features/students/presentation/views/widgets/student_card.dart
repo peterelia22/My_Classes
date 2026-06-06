@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/core/theme/app_text_styles.dart';
 import 'package:my_classes/core/widgets/app_card.dart';
 import 'package:my_classes/features/students/domain/entities/student_entity.dart';
+import 'package:my_classes/features/students/presentation/cubits/students_cubit.dart';
+import '../../../../groups/presentation/cubits/groups_cubit.dart';
+import '../student_details_view.dart';
 
 class StudentCard extends StatelessWidget {
   final StudentEntity student;
@@ -11,7 +15,17 @@ class StudentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          StudentDetailsView.routeName,
+          arguments: {
+            'student': student,
+            'studentsCubit': context.read<StudentsCubit>(),
+            'groupsCubit': context.read<GroupsCubit>(),
+          },
+        );
+      },
       child: AppCard(
         child: Row(
           children: [

@@ -10,33 +10,36 @@ class StudentsViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (students.isEmpty)
-            Expanded(
-              child: Center(
-                child: Text(
-                  'لا يوجد طلاب بعد',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.textSecondaryColor,
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (students.isEmpty)
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'لا يوجد طلاب بعد',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondaryColor,
+                    ),
                   ),
                 ),
+              )
+            else
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.only(bottom: 120),
+                  itemCount: students.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (_, index) =>
+                      StudentCard(student: students[index]),
+                ),
               ),
-            )
-          else
-            Expanded(
-              child: ListView.separated(
-                padding: EdgeInsets.zero,
-                itemCount: students.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (_, index) =>
-                    StudentCard(student: students[index]),
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -6,22 +6,37 @@ import '../../../../../../core/theme/app_text_styles.dart';
 import '../../../../../../core/widgets/app_delete_confirmation_dialog.dart';
 import '../../../../../../core/widgets/app_details_actions_row.dart';
 import '../../../../../../core/widgets/app_details_header_card.dart';
-import '../../../../domain/entities/group_entity.dart';
-import '../../../cubits/groups_cubit.dart';
-import '../group_bottom_sheet.dart';
-import 'group_details_schedule_card.dart';
+import '../../../../../groups/presentation/cubits/groups_cubit.dart';
+import '../../../../domain/entities/student_entity.dart';
+import '../../../cubits/students_cubit.dart';
+import '../student_bottom_sheet.dart';
+import 'student_details_contact_card.dart';
 
-class GroupDetailsViewBody extends StatelessWidget {
-  final GroupEntity group;
+class StudentDetailsViewBody extends StatelessWidget {
+  final StudentEntity student;
 
-  const GroupDetailsViewBody({super.key, required this.group});
+  const StudentDetailsViewBody({super.key, required this.student});
+
+  void _showEditBottomSheet(BuildContext context) {
+    showAppBottomSheet(
+      context: context,
+      providers: [
+        BlocProvider.value(value: context.read<StudentsCubit>()),
+        BlocProvider.value(value: context.read<GroupsCubit>()),
+      ],
+      child: StudentBottomSheet(
+        student: student,
+        groups: context.read<GroupsCubit>().currentGroups,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          group.name,
+          student.name,
           style: AppTextStyles.headlineSmall.copyWith(
             color: AppColors.textPrimaryColor,
           ),
@@ -43,28 +58,22 @@ class GroupDetailsViewBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AppDetailsHeaderCard(
-              icon: Icons.group_outlined,
-              title: group.name,
-              subtitle: '${group.gradeLevel} — ${group.academicYear}',
+              icon: Icons.person_outline,
+              title: student.name,
+              subtitle: student.gradeLevel,
             ),
             const SizedBox(height: 20),
-            GroupDetailsScheduleCard(group: group),
+            StudentDetailsContactCard(student: student),
             const SizedBox(height: 40),
             AppDetailsActionsRow(
-              deleteLabel: 'حذف المجموعة',
-              onEdit: () => showAppBottomSheet(
-                context: context,
-                providers: [
-                  BlocProvider.value(value: context.read<GroupsCubit>()),
-                ],
-                child: GroupBottomSheet(group: group),
-              ),
+              deleteLabel: 'حذف الطالب',
+              onEdit: () => _showEditBottomSheet(context),
               onDelete: () {
                 AppDeleteConfirmationDialog.show(
                   context: context,
-                  title: 'حذف المجموعة',
-                  content: 'هل أنت متأكد من رغبتك في حذف مجموعة "${group.name}"؟ لا يمكن التراجع عن هذا الإجراء.',
-                  onDelete: () => context.read<GroupsCubit>().deleteGroup(group.id),
+                  title: 'حذف الطالب',
+                  content: 'هل أنت متأكد من رغبتك في حذف الطالب "${student.name}"؟ لا يمكن التراجع عن هذا الإجراء.',
+                  onDelete: () => context.read<StudentsCubit>().deleteStudent(student.id),
                 );
               },
             ),

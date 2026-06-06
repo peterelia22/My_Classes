@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/theme/app_colors.dart';
-import '../../../../../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 
 class DetailRow extends StatelessWidget {
   final IconData icon;
@@ -27,10 +27,15 @@ class DetailRow extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        Text(
-          value,
-          style: AppTextStyles.titleMedium.copyWith(
-            color: AppColors.textPrimaryColor,
+        Expanded(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: AppTextStyles.titleMedium.copyWith(
+              color: AppColors.textPrimaryColor,
+            ),
           ),
         ),
       ],

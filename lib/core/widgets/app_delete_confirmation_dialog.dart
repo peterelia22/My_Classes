@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/theme/app_colors.dart';
-import '../../../../../../core/theme/app_text_styles.dart';
-import '../../../../domain/entities/group_entity.dart';
-import '../../../cubits/groups_cubit.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 
-class DeleteGroupDialog extends StatelessWidget {
-  final GroupEntity group;
+class AppDeleteConfirmationDialog extends StatelessWidget {
+  final String title;
+  final String content;
+  final VoidCallback onDelete;
 
-  const DeleteGroupDialog({super.key, required this.group});
+  const AppDeleteConfirmationDialog({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.onDelete,
+  });
 
-  static void show(BuildContext context, GroupEntity group) {
+  static void show({
+    required BuildContext context,
+    required String title,
+    required String content,
+    required VoidCallback onDelete,
+  }) {
     showDialog(
       context: context,
       builder: (dialogContext) {
-        return BlocProvider.value(
-          value: context.read<GroupsCubit>(),
-          child: DeleteGroupDialog(group: group),
+        return AppDeleteConfirmationDialog(
+          title: title,
+          content: content,
+          onDelete: onDelete,
         );
       },
     );
@@ -27,14 +37,14 @@ class DeleteGroupDialog extends StatelessWidget {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Text(
-        'حذف المجموعة',
+        title,
         style: AppTextStyles.headlineSmall.copyWith(
           color: AppColors.errorColor,
         ),
         textAlign: TextAlign.center,
       ),
       content: Text(
-        'هل أنت متأكد من رغبتك في حذف مجموعة "${group.name}"؟ لا يمكن التراجع عن هذا الإجراء.',
+        content,
         style: AppTextStyles.bodyMedium.copyWith(
           color: AppColors.textPrimaryColor,
         ),
@@ -54,7 +64,7 @@ class DeleteGroupDialog extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
-            context.read<GroupsCubit>().deleteGroup(group.id);
+            onDelete();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.errorColor,

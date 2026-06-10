@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/helpers/show_app_bottom_sheet.dart';
+
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_text_styles.dart';
 import '../../../../../../core/widgets/app_delete_confirmation_dialog.dart';
@@ -16,13 +16,6 @@ class GroupDetailsViewBody extends StatelessWidget {
 
   const GroupDetailsViewBody({super.key, required this.group});
 
-  void _showEditBottomSheet(BuildContext context) {
-    showAppBottomSheet(
-      context: context,
-      providers: [BlocProvider.value(value: context.read<GroupsCubit>())],
-      child: GroupBottomSheet(group: group),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +53,7 @@ class GroupDetailsViewBody extends StatelessWidget {
             const SizedBox(height: 40),
             AppDetailsActionsRow(
               deleteLabel: 'حذف المجموعة',
-              onEdit: () => _showEditBottomSheet(context),
+              onEdit: () => GroupBottomSheet.show(context, group: group),
               onDelete: () {
                 AppDeleteConfirmationDialog.show(
                   context: context,

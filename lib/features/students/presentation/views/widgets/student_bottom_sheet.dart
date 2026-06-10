@@ -1,4 +1,5 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:my_classes/core/helpers/show_app_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/core/helpers/build_snack_bar.dart';
@@ -9,6 +10,7 @@ import 'package:my_classes/features/groups/domain/entities/group_entity.dart';
 import 'package:my_classes/features/students/domain/entities/student_entity.dart';
 import 'package:my_classes/features/students/presentation/cubits/students_cubit.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../groups/presentation/cubits/groups_cubit.dart';
 import 'student_info_section.dart';
 import 'student_group_section.dart';
 
@@ -17,6 +19,20 @@ class StudentBottomSheet extends StatefulWidget {
   final List<GroupEntity> groups;
 
   const StudentBottomSheet({super.key, this.student, required this.groups});
+
+  static void show(BuildContext context, {StudentEntity? student}) {
+    showAppBottomSheet(
+      context: context,
+      providers: [
+        BlocProvider.value(value: context.read<StudentsCubit>()),
+        BlocProvider.value(value: context.read<GroupsCubit>()),
+      ],
+      child: StudentBottomSheet(
+        student: student,
+        groups: context.read<GroupsCubit>().currentGroups,
+      ),
+    );
+  }
 
   @override
   State<StudentBottomSheet> createState() => _StudentBottomSheetState();

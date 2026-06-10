@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/helpers/show_app_bottom_sheet.dart';
+
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_text_styles.dart';
 import '../../../../../../core/widgets/app_delete_confirmation_dialog.dart';
@@ -17,19 +17,6 @@ class StudentDetailsViewBody extends StatelessWidget {
 
   const StudentDetailsViewBody({super.key, required this.student});
 
-  void _showEditBottomSheet(BuildContext context) {
-    showAppBottomSheet(
-      context: context,
-      providers: [
-        BlocProvider.value(value: context.read<StudentsCubit>()),
-        BlocProvider.value(value: context.read<GroupsCubit>()),
-      ],
-      child: StudentBottomSheet(
-        student: student,
-        groups: context.read<GroupsCubit>().currentGroups,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +54,7 @@ class StudentDetailsViewBody extends StatelessWidget {
             const SizedBox(height: 40),
             AppDetailsActionsRow(
               deleteLabel: 'حذف الطالب',
-              onEdit: () => _showEditBottomSheet(context),
+              onEdit: () => StudentBottomSheet.show(context, student: student),
               onDelete: () {
                 AppDeleteConfirmationDialog.show(
                   context: context,

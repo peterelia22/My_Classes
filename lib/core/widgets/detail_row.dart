@@ -26,13 +26,11 @@ class DetailRow extends StatelessWidget {
             color: AppColors.textSecondaryColor,
           ),
         ),
-        const Spacer(),
+        const SizedBox(width: 8),
         Expanded(
           child: Text(
             value,
             textAlign: TextAlign.end,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
             style: AppTextStyles.titleMedium.copyWith(
               color: AppColors.textPrimaryColor,
             ),

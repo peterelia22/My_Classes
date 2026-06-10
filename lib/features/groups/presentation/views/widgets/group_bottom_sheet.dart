@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_classes/core/helpers/show_app_bottom_sheet.dart';
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/core/theme/app_text_styles.dart';
 import 'package:my_classes/core/widgets/custom_button.dart';
@@ -14,6 +15,16 @@ class GroupBottomSheet extends StatefulWidget {
   final GroupEntity? group;
 
   const GroupBottomSheet({super.key, this.group});
+
+  static void show(BuildContext context, {GroupEntity? group}) {
+    showAppBottomSheet(
+      context: context,
+      providers: [
+        BlocProvider.value(value: context.read<GroupsCubit>()),
+      ],
+      child: GroupBottomSheet(group: group),
+    );
+  }
 
   @override
   State<GroupBottomSheet> createState() => _GroupBottomSheetState();

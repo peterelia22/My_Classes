@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:my_classes/features/groups/data/models/group_isar_model.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../features/payments/data/models/payment_isar_model.dart';
 import '../../features/students/data/models/student_isar_model.dart';
 
 class IsarService {
@@ -14,7 +15,7 @@ class IsarService {
       StudentIsarModelSchema,
       // SessionIsarModelSchema,
       // AttendanceIsarModelSchema,
-      // PaymentIsarModelSchema,
+      PaymentIsarModelSchema,
     ], directory: dir.path);
   }
 }

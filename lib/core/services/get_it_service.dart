@@ -11,6 +11,10 @@ import 'package:my_classes/features/groups/data/repos/group_repo_impl.dart';
 import 'package:my_classes/features/groups/domain/repos/group_repo.dart';
 import 'package:my_classes/core/network/network_listener_service.dart';
 
+import '../../features/payments/data/datasources/payment_local_datasource.dart';
+import '../../features/payments/data/datasources/payment_remote_datasource.dart';
+import '../../features/payments/data/repos/payment_repo_impl.dart';
+import '../../features/payments/domain/repos/payment_repo.dart';
 import '../../features/students/data/datasources/student_local_datasource.dart';
 import '../../features/students/data/datasources/student_remote_datasource.dart';
 import '../../features/students/data/repos/student_repo_impl.dart';
@@ -61,12 +65,27 @@ Future<void> setupGetIt() async {
       network: getIt<NetworkInfo>(),
     ),
   );
+  // Payments
+  getIt.registerSingleton<PaymentLocalDatasource>(
+    PaymentLocalDatasource(isarService: getIt<IsarService>()),
+  );
+  getIt.registerSingleton<PaymentRemoteDatasource>(
+    PaymentRemoteDatasource(db: getIt<SupabaseDatabaseService>()),
+  );
+  getIt.registerSingleton<PaymentRepo>(
+    PaymentRepoImpl(
+      remote: getIt<PaymentRemoteDatasource>(),
+      local: getIt<PaymentLocalDatasource>(),
+      network: getIt<NetworkInfo>(),
+    ),
+  );
   // Network Listener
   getIt.registerSingleton<NetworkListenerService>(
     NetworkListenerService(
       networkInfo: getIt<NetworkInfo>(),
       groupRepo: getIt<GroupRepo>(),
       studentRepo: getIt<StudentRepo>(),
+      paymentRepo: getIt<PaymentRepo>(),
     ),
   );
 }

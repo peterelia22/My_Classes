@@ -1,20 +1,37 @@
 name: Build & Release APK
+
 on:
   push:
     branches:
       - main
+
 jobs:
   build:
-    name: Build APK
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept Android licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Install NDK
+        run: sdkmanager "ndk;29.0.13599879"
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.8'
+          flutter-version: "3.32.8"
 
       - name: Install dependencies
         run: flutter pub get
@@ -26,10 +43,3 @@ jobs:
 
       - name: Build APK
         run: flutter build apk --release --obfuscate --split-debug-info=build/debug_info --split-per-abi
-
-      - name: Upload APK to Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/flutter-apk/app-arm64-v8a-release.apk"
-          tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.MY_GITHUB_TOKEN }}

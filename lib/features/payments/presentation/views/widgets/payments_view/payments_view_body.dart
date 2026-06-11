@@ -3,14 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_classes/core/constants/app_constants.dart';
 import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/core/theme/app_text_styles.dart';
-import 'package:uuid/uuid.dart';
-
 import 'package:my_classes/features/groups/presentation/cubits/groups_cubit.dart';
 import 'package:my_classes/features/students/presentation/cubits/students_cubit.dart';
 import 'package:my_classes/features/payments/presentation/cubits/payments_cubit.dart';
-import 'package:my_classes/features/payments/domain/entities/payment_entity.dart';
-
 import 'payment_item_card.dart';
+import 'payment_toggle_handler.dart';
 import 'payments_filters_row.dart';
 import 'payments_summary_cards.dart';
 import 'student_payment_data.dart';
@@ -29,34 +26,10 @@ class _PaymentsViewBodyState extends State<PaymentsViewBody> {
   @override
   void initState() {
     super.initState();
-    selectedMonth = AppConstants.months[DateTime.now().month - 1];
-    context.read<PaymentsCubit>().getAllPayments();
-  }
 
-  void _handleTogglePayment(
-    bool isPaid,
-    String studentId,
-    PaymentEntity? existingPayment,
-  ) {
-    if (existingPayment != null) {
-      final updated = PaymentEntity(
-        id: existingPayment.id,
-        studentId: existingPayment.studentId,
-        month: existingPayment.month,
-        amount: existingPayment.amount,
-        isPaid: isPaid,
-      );
-      context.read<PaymentsCubit>().updatePayment(updated);
-    } else {
-      final newPayment = PaymentEntity(
-        id: const Uuid().v4(),
-        studentId: studentId,
-        month: selectedMonth,
-        amount: 500,
-        isPaid: isPaid,
-      );
-      context.read<PaymentsCubit>().addPayment(newPayment);
-    }
+    selectedMonth = AppConstants.months[DateTime.now().month - 1];
+
+    context.read<PaymentsCubit>().getAllPayments();
   }
 
   @override
@@ -148,10 +121,12 @@ class _PaymentsViewBodyState extends State<PaymentsViewBody> {
                           group: data.group,
                           isPaid: data.isPaid,
                           onTogglePayment: (newIsPaid) {
-                            _handleTogglePayment(
-                              newIsPaid,
-                              data.student.id,
-                              data.existingPayment,
+                            handleTogglePayment(
+                              context: context,
+                              isPaid: newIsPaid,
+                              studentId: data.student.id,
+                              selectedMonth: selectedMonth,
+                              existingPayment: data.existingPayment,
                             );
                           },
                         );

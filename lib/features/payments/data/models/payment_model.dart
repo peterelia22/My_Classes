@@ -26,6 +26,7 @@ class PaymentModel extends PaymentEntity {
   );
 
   Map<String, dynamic> toMap() => {
+    'id': id,
     'student_id': studentId,
     'month': month,
     'amount': amount,

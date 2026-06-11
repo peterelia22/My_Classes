@@ -27,6 +27,7 @@ class GroupRepoImpl implements GroupRepo {
   Future<Either<Failure, List<GroupEntity>>> getGroups() async {
     try {
       if (await network.isConnected) {
+        await syncUnsyncedGroups();
         final groups = await remote.getGroups();
         final isarGroups = groups
             .map((e) => GroupIsarModel.fromEntity(e, isSynced: true))
@@ -138,6 +139,7 @@ class GroupRepoImpl implements GroupRepo {
             id: isarModel.remoteId,
           );
 
+          // Use upsert via addGroup (which passes documentId)
           await remote.addGroup(remoteModel);
 
           isarModel.isSynced = true;

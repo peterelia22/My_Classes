@@ -29,6 +29,7 @@ class PaymentRepoImpl implements PaymentRepo {
   ) async {
     try {
       if (await network.isConnected) {
+        await syncUnsyncedPayments();
         final payments = await remote.getPaymentsByStudent(studentId);
         await local.savePayments(
           payments
@@ -58,6 +59,7 @@ class PaymentRepoImpl implements PaymentRepo {
   Future<Either<Failure, List<PaymentEntity>>> getAllPayments() async {
     try {
       if (await network.isConnected) {
+        await syncUnsyncedPayments();
         final payments = await remote.getAllPayments();
         await local.savePayments(
           payments

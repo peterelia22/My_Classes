@@ -18,6 +18,11 @@ class AppConstants {
     'الجمعة',
   ];
 
+  static const List<String> months = [
+    'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+    'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+  ];
+
   static const List<String> sessionDurations = ['30', '45', '60', '90', '120'];
 
   static List<String> get timeSlots {

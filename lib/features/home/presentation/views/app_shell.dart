@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_classes/core/theme/app_colors.dart';
 import 'package:my_classes/features/groups/presentation/views/groups_view.dart';
-import 'package:my_classes/features/groups/presentation/views/widgets/group_bottom_sheet.dart';
 import 'package:my_classes/features/home/presentation/views/home_layout.dart';
 import 'package:my_classes/features/home/presentation/views/widgets/custom_navigation_bar.dart';
 import 'package:my_classes/features/students/presentation/views/students_view.dart';
 import '../../../../core/services/get_it_service.dart';
 import '../../../groups/domain/repos/group_repo.dart';
 import '../../../groups/presentation/cubits/groups_cubit.dart';
+import '../../../payments/domain/repos/payment_repo.dart';
+import '../../../payments/presentation/cubits/payments_cubit.dart';
+import '../../../payments/presentation/views/payments_view.dart';
 import '../../../students/domain/repos/student_repo.dart';
 import '../../../students/presentation/cubits/students_cubit.dart';
 import 'widgets/app_shell_fab.dart';
@@ -29,7 +30,7 @@ class AppShellState extends State<AppShell> {
     HomeLayout(),
     GroupsView(),
     StudentsView(),
-    Placeholder(),
+    PaymentsView(),
   ];
 
   @override
@@ -53,6 +54,9 @@ class AppShellState extends State<AppShell> {
         ),
         BlocProvider(
           create: (_) => StudentsCubit(getIt<StudentRepo>())..getAllStudents(),
+        ),
+        BlocProvider(
+          create: (_) => PaymentsCubit(getIt<PaymentRepo>())..getAllPayments(),
         ),
       ],
       child: Builder(

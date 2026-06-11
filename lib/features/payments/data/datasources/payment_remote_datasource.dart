@@ -30,7 +30,7 @@ class PaymentRemoteDatasource {
 
   Future<void> addPayment(PaymentModel payment) async {
     try {
-      await db.addData(path: BackendEndpoints.payments, data: payment.toMap());
+      await db.addData(path: BackendEndpoints.payments, data: payment.toMap(), documentId: payment.id);
     } catch (e) {
       throw CustomException(message: e.toString());
     }

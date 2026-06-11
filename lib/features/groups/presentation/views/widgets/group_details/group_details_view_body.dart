@@ -8,6 +8,7 @@ import '../../../../../../core/widgets/app_details_actions_row.dart';
 import '../../../../../../core/widgets/app_details_header_card.dart';
 import '../../../../domain/entities/group_entity.dart';
 import '../../../cubits/groups_cubit.dart';
+import 'package:my_classes/features/students/presentation/cubits/students_cubit.dart';
 import '../group_bottom_sheet.dart';
 import 'group_details_schedule_card.dart';
 
@@ -19,6 +20,9 @@ class GroupDetailsViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final students = context.watch<StudentsCubit>().currentStudents;
+    final groupStudentsCount = students.where((s) => s.groupId == group.id).length;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -46,7 +50,7 @@ class GroupDetailsViewBody extends StatelessWidget {
             AppDetailsHeaderCard(
               icon: Icons.group_outlined,
               title: group.name,
-              subtitle: '${group.gradeLevel} — ${group.academicYear}',
+              subtitle: '${group.gradeLevel} — ${group.academicYear}\nعدد الطلاب: $groupStudentsCount طالب',
             ),
             const SizedBox(height: 20),
             GroupDetailsScheduleCard(group: group),

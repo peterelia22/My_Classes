@@ -22,9 +22,13 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
       final args = settings.arguments as Map<String, dynamic>;
       final group = args['group'] as GroupEntity;
       final cubit = args['cubit'] as GroupsCubit;
+      final studentsCubit = args['studentsCubit'] as StudentsCubit;
       return MaterialPageRoute(
-        builder: (context) => BlocProvider.value(
-          value: cubit,
+        builder: (context) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: cubit),
+            BlocProvider.value(value: studentsCubit),
+          ],
           child: GroupDetailsView(group: group),
         ),
       );

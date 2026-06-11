@@ -146,6 +146,7 @@ class StudentRepoImpl implements StudentRepo {
   Future<Either<Failure, List<StudentEntity>>> getAllStudents() async {
     try {
       if (await network.isConnected) {
+        await syncUnsyncedStudents();
         final students = await remote.getAllStudents();
         final isarStudents = students
             .map((e) => StudentIsarModel.fromEntity(e, isSynced: true))

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:my_classes/core/services/shared_preferences_service.dart';
 import 'package:my_classes/core/services/supbase_service.dart';
 import 'package:my_classes/core/services/custom_bloc_observer.dart';
 import 'package:my_classes/features/splash/presentation/splash_view.dart';
+import 'package:my_classes/firebase_options.dart';
 import 'package:my_classes/generated/l10n.dart';
 import 'core/helpers/on_generate_routes.dart';
 import 'core/services/get_it_service.dart';
@@ -21,6 +23,14 @@ void main() async {
   } on Exception catch (e) {
     log('Error initializing Supabase: ${e.toString()}');
     // TODO
+  }
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    log('Firebase initialized');
+  } catch (e) {
+    log('Error initializing Firebase: ${e.toString()}');
   }
   await setupGetIt();
 

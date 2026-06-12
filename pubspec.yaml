@@ -51,6 +51,7 @@ dependencies:
   bloc: ^9.2.1
   flutter_launcher_icons: ^0.14.4
   path_provider: ^2.1.5
+  firebase_core: ^4.10.0
 
 dev_dependencies:
   flutter_test:

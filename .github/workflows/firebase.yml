@@ -1,0 +1,73 @@
+name: Flutter Firebase App Distribution
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build & Upload APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Java
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # 3. Setup Android SDK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      # 4. Accept licenses
+      - name: Accept Android licenses
+        run: yes | sdkmanager --licenses
+
+      # 5. Install NDK (for Isar / native builds)
+      - name: Install NDK
+        run: sdkmanager "ndk;29.0.13599879"
+
+      # 6. Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.32.8"
+
+      # 7. Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 8. Fix Isar issue (important)
+      - name: Patch Isar namespace
+        run: |
+          FILE="$HOME/.pub-cache/hosted/pub.dev/isar_flutter_libs-3.1.0+1/android/build.gradle"
+
+          if [ -f "$FILE" ]; then
+            sed -i '/android {/a\    namespace "dev.isar.isar_flutter_libs"' "$FILE"
+          fi
+
+      # 9. Create .env file (Supabase)
+      - name: Create .env file
+        run: |
+          echo "MY_CLASSES_URL=${{ secrets.MY_CLASSES_URL }}" > .env
+          echo "MY_CLASSES_ANON_KEY=${{ secrets.MY_CLASSES_ANON_KEY }}" >> .env
+
+      # 10. Build APK
+      - name: Build APK
+        run: flutter build apk --release --obfuscate --split-debug-info=build/debug_info --split-per-abi
+
+      # 11. Upload to Firebase App Distribution
+      - name: Upload to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: testers
+          file: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk

@@ -1,4 +1,12 @@
 # ============================================================
+# Google Play Core (Flutter Deferred Components - not used but referenced)
+# ============================================================
+-dontwarn com.google.android.play.core.**
+-keep class com.google.android.play.core.splitcompat.** { *; }
+-keep class com.google.android.play.core.splitinstall.** { *; }
+-keep class com.google.android.play.core.tasks.** { *; }
+
+# ============================================================
 # Flutter
 # ============================================================
 -keep class io.flutter.app.** { *; }
